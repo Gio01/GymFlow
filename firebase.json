@@ -1,0 +1,29 @@
+{
+  "hosting": {
+    "public": "public",
+    "rewrites":[{
+        "source" : "/",
+        "destination": "/index.ejs"
+  },{
+        "source" : "/fitness",
+        "destination" : "/fitness.ejs"
+  },{
+       "source" : "/contact",
+       "destination" : "/contact.ejs"
+  },{
+       "source" : "/login",
+       "destination" : "/login.ejs"
+  },{
+       "source" : "/profile",
+       "destination" : "/profile.ejs"
+  },{
+       "source" : "/register",
+       "destination" : "/register.ejs"
+}],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

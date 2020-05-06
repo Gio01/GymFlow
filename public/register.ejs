@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: #e1ecf2;
+        }
+
+        .wrapper .top_navbar {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            top: 0px;
+        }
+
+        .wrapper .top_navbar .hamburger {
+            width: 70px;
+            height: 100%;
+            background: rgb(32, 31, 31);
+            padding: 15px 17px;
+            /*border-top-left-radius: 20px;*/
+            cursor: pointer;
+        }
+
+        .wrapper .top_navbar .hamburger div {
+            width: 35px;
+            height: 4px;
+            background: #fff;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .wrapper .top_navbar .top_menu {
+            width: calc(100% - 70px);
+            height: 100%;
+            background: #fff;
+            border-top-right-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        }
+
+        .wrapper .top_navbar .top_menu .logo {
+            color: rgb(32, 31, 31);
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .wrapper .top_navbar .top_menu ul {
+            display: flex;
+        }
+
+        .wrapper .top_navbar .top_menu ul li a {
+            display: block;
+            margin: 0 10px;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border: 1px solid rgb(32, 31, 31);
+            border-radius: 50%;
+            color: rgb(32, 31, 31);
+        }
+
+        .wrapper .top_navbar .top_menu ul li a:hover {
+            background: rgb(32, 31, 31);
+            color: #fff;
+        }
+
+        .wrapper .top_navbar .top_menu ul li a:hover i {
+            color: #fff;
+        }
+
+        .wrapper .sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0px;
+            background: rgb(32, 31, 31);
+            width: 200px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .wrapper .sidebar ul li a {
+            display: block;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            margin-bottom: 1px;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .wrapper .sidebar ul li a:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: #fff;
+            display: none;
+        }
+
+        .wrapper .sidebar ul li a span.icon {
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a span.title {
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a:hover,
+        .wrapper .sidebar ul li a.active {
+            background: rgb(32, 31, 31);
+            color: #fff;
+        }
+
+        .wrapper .sidebar ul li a:hover:before,
+        .wrapper .sidebar ul li a.active:before {
+            display: block;
+        }
+
+        .wrapper .main_container {
+            width: (100% - 200px);
+
+            margin-left: 200px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .wrapper .main_container .item {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 22px;
+        }
+
+        .wrapper.collapse .sidebar {
+            width: 70px;
+        }
+
+        .wrapper.collapse .sidebar ul li a {
+            text-align: center;
+        }
+
+        .wrapper.collapse .sidebar ul li a span.icon {
+            margin: 0;
+        }
+
+        .wrapper.collapse .sidebar ul li a span.title {
+            display: none;
+        }
+
+        .wrapper.collapse .main_container {
+            width: (100% - 70px);
+            margin-left: 70px;
+        }
+    </style>
+    <style>
+        @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+
+        .login-block {
+            float: left;
+            width: 100%;
+            padding: 50px 0;
+        }
+
+        .banner-sec {
+            background: url(https://images.unsplash.com/photo-1507398941214-572c25f4b1dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1332&q=80) no-repeat left bottom;
+            background-size: cover;
+            min-height: 500px;
+            border-radius: 0 10px 10px 0;
+            padding: 0;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 15px 20px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-inner {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .carousel-caption {
+            text-align: left;
+            left: 5%;
+        }
+
+        .login-sec {
+            padding: 50px 30px;
+            position: relative;
+        }
+
+        .login-sec .copy-text {
+            position: absolute;
+            width: 80%;
+            bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .login-sec .copy-text i {
+            color: rgb(32, 31, 31);
+        }
+
+        .login-sec .copy-text a {
+            color: rgb(32, 31, 31);
+        }
+
+        .login-sec h2 {
+            margin-bottom: 30px;
+            font-weight: 800;
+            font-size: 30px;
+            color: rgb(32, 31, 31);
+        }
+
+        .login-sec h2:after {
+            content: " ";
+            width: 100px;
+            height: 5px;
+            background: rgb(32, 31, 31);
+            display: block;
+            margin-top: 20px;
+            border-radius: 3px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-login {
+            background: rgb(32, 31, 31);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .banner-text {
+            width: 70%;
+            position: absolute;
+            bottom: 40px;
+            padding-left: 20px;
+        }
+
+        .banner-text h2 {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .banner-text h2:after {
+            content: " ";
+            width: 100px;
+            height: 5px;
+            background: #fff;
+            display: block;
+            margin-top: 20px;
+            border-radius: 3px;
+        }
+
+        .banner-text p {
+            color: #fff;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+
+
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="hamburger">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <p style="padding-top: 15px;">GymFlow</p>
+                    <!--<img src="/img/GymFlow.jpg" alt=" GymFlow">-->
+                </div>
+                <ul>
+                    <li style="padding-bottom: 0; padding-top: 15px;">
+                        <a href="/gymflow-47c9b/us-central1/api/login" display="none">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <br>
+                    <li style="padding-top: 30px; padding-bottom: 0;">
+                        <a href="#" class="logged-in" id="logout" display="none">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <!--<a href="/api">-->
+                    <a href="/gymflow-47c9b/us-central1/api/" display="none">
+                        <span class=" icon"><i class="fas fa-home"></i></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li class="logged-in">
+                    <!--<a href="/api/fitness">-->
+                    <a href="/gymflow-47c9b/us-central1/api/fitness" display="none">
+                        <span class="icon"><i class="fas fa-dumbbell"></i></span>
+                        <span class="title">Fitness</span>
+                    </a>
+                </li>
+                <li>
+                    <!--<a href="/api/contact">-->
+                    <a class="logged-in" href="/gymflow-47c9b/us-central1/api/profile" display="none">
+                        <span class="icon"><i class="fas fa-id-card"></i></span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <!--<a href="/api/contact">-->
+                    <a href="/gymflow-47c9b/us-central1/api/contact" display="none">
+                        <span class="icon"><i class="fas fa-address-book"></i></span>
+                        <span class="title">Contact</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!------------------------------------>
+        <div class="main_container">
+            <section class="login-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 login-sec">
+                            <h2 class="text-center">Register Now</h2>
+
+
+                            <form id="signupForm">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="text-uppercase">Email Address</label>
+                                    <input name="email" type="text" class="form-control" placeholder="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="text-uppercase">Password</label>
+                                    <input name="pass" type="password" class="form-control" placeholder="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputBio1" class="text-uppercase">Bio</label>
+                                    <input name="bio" type="text" class="form-control" placeholder="" required />
+                                </div>
+                                <div class="form-check">
+                                    <button class="btn btn-login float-right">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <!--Backgroung Gym Image-->
+                        <div class="col-md-8 banner-sec"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!--
+    <script>
+      $(".hamburger").click(function() {
+        $(".wrapper").toggleClass("collapse");
+      });
+    </script>
+    -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+            authDomain: "gymflow-47c9b.firebaseapp.com",
+            databaseURL: "https://gymflow-47c9b.firebaseio.com",
+            projectId: "gymflow-47c9b",
+            storageBucket: "gymflow-47c9b.appspot.com",
+            messagingSenderId: "728577478893",
+            appId: "1:728577478893:web:417f9380ebeeecd099bce4",
+            measurementId: "G-F647FJLRB7"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Make auth and firestore references!
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const signupForm = document.querySelector('#signupForm');
+        signupForm.addEventListener('submit', (e) => {
+            //we want to stop the default submit settings of refreshing the
+            //page 
+            e.preventDefault();//prevents the auto refresh!
+                
+            // get user info
+            const email = signupForm['email'].value;
+            const pass = signupForm['pass'].value;
+
+            //sign up the user
+            auth.createUserWithEmailAndPassword(email, pass).then(cred => {
+                //we are returning so that we can do a .then() method afterwards and not have nested .then()
+                return db.collection('users').doc(cred.user.uid).set({
+                    bio: signupForm['bio'].value
+                }); // we are creating the id of thr doc to be the uid from Firebase Auth
+            }).then(() => {
+                alert("Successfully Registered")
+                signupForm.reset();
+            })
+        })
+
+        //logout method
+        const logout = document.querySelector("#logout");
+        logout.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                console.log("User Logged Out!");
+            });
+        })
+
+
+        auth.onAuthStateChanged(user => {
+            //if user is logged in then show data & if not then don't show anything
+            if (user) {
+
+                setupUI(user)
+
+            } else {
+                setupUI();
+            }
+
+        });
+        const loggedOutLinks = document.querySelectorAll('.logged-out');
+        const loggedInLinks = document.querySelectorAll('.logged-in');
+
+        const setupUI = user => {
+            if (user) {
+                //toggle UI elements
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'block'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'none'
+                })
+            } else {
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'none'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'block'
+                })
+            }
+        }
+
+        firebase.analytics();
+    </script>
+</body>
+
+</html>

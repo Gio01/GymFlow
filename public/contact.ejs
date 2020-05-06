@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-decoration: none;
+      box-sizing: border-box;
+      font-family: "Montserrat", sans-serif;
+    }
+
+    body {
+      background: #e1ecf2;
+    }
+
+    .wrapper .top_navbar {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      top: 0px;
+    }
+
+    .wrapper .top_navbar .hamburger {
+      width: 70px;
+      height: 100%;
+      background: rgb(32, 31, 31);
+      padding: 15px 17px;
+      /*border-top-left-radius: 20px;*/
+      cursor: pointer;
+    }
+
+    .wrapper .top_navbar .hamburger div {
+      width: 35px;
+      height: 4px;
+      background: #fff;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+
+    .wrapper .top_navbar .top_menu {
+      width: calc(100% - 70px);
+      height: 100%;
+      background: #fff;
+      border-top-right-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      position: sticky;
+    }
+
+    .wrapper .top_navbar .top_menu .logo {
+      color: rgb(32, 31, 31);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .wrapper .top_navbar .top_menu ul {
+      display: flex;
+    }
+
+    .wrapper .top_navbar .top_menu ul li a {
+      display: block;
+      margin: 0 10px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      border: 1px solid rgb(32, 31, 31);
+      border-radius: 50%;
+      color: rgb(32, 31, 31);
+    }
+
+    .wrapper .top_navbar .top_menu ul li a:hover {
+      background: rgb(32, 31, 31);
+      color: #fff;
+    }
+
+    .wrapper .top_navbar .top_menu ul li a:hover i {
+      color: #fff;
+    }
+
+    .wrapper .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0px;
+      background: rgb(32, 31, 31);
+      width: 200px;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .wrapper .sidebar ul li a {
+      display: block;
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      margin-bottom: 1px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .wrapper .sidebar ul li a:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: #fff;
+      display: none;
+    }
+
+    .wrapper .sidebar ul li a span.icon {
+      margin-right: 10px;
+      display: inline-block;
+    }
+
+    .wrapper .sidebar ul li a span.title {
+      display: inline-block;
+    }
+
+    .wrapper .sidebar ul li a:hover,
+    .wrapper .sidebar ul li a.active {
+      background: rgb(32, 31, 31);
+      color: #fff;
+    }
+
+    .wrapper .sidebar ul li a:hover:before,
+    .wrapper .sidebar ul li a.active:before {
+      display: block;
+    }
+
+    .wrapper .main_container {
+      width: (100% - 200px);
+      margin-top: 70px;
+      margin-left: 200px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .wrapper .main_container .item {
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .wrapper.collapse .sidebar {
+      width: 70px;
+    }
+
+    .wrapper.collapse .sidebar ul li a {
+      text-align: center;
+    }
+
+    .wrapper.collapse .sidebar ul li a span.icon {
+      margin: 0;
+    }
+
+    .wrapper.collapse .sidebar ul li a span.title {
+      display: none;
+    }
+
+    .wrapper.collapse .main_container {
+      width: (100% - 70px);
+      margin-left: 70px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+  <div class="wrapper">
+    <div class="top_navbar">
+      <div class="hamburger">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+      </div>
+      <div class="top_menu">
+        <div class="logo">
+          <p>GymFlow</p>
+          <!-- <img src="/Users/giovanniordonez/Desktop/GymFlow1/public/views/img/GymFlow.jpg" alt=" GymFlow">-->
+        </div>
+        <ul>
+          <li class="logged-out">
+            <a href="/login">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="logged-in" id="logout">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <ul>
+        <li class="logged-out">
+          <a href="/gymflow-47c9b/us-central1/api/">
+            <span class=" icon"><i class="fas fa-home"></i></span>
+            <span class="title">Home</span>
+          </a>
+        </li>
+        <li class="logged-in">
+          <!--<a href="/api/contact">-->
+          <a href="/profile">
+            <span class="icon"><i class="fas fa-id-card"></i></span>
+            <span class="title">Profile</span>
+          </a>
+        </li>
+
+        <li class="logged-in">
+          <a href="/fitness">
+            <span class="icon"><i class="fas fa-dumbbell"></i></span>
+            <span class="title">Fitness</span>
+          </a>
+        </li>
+
+        <li class="logged-out">
+          <a href="/contact">
+            <span class="icon"><i class="fas fa-address-book"></i></span>
+            <span class="title">Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main_container">
+      <img src="" alt="" />
+      <div class="item">
+        <h1>Contact Info</h1>
+        <br />
+        <p>Giovanni Ordonez</p>
+        <p>Web Developer with a focus in CyberSecurity</p>
+        <br />
+        <p>Email: giovanniordonez33@gmail.com</p>
+        <br />
+        <i class="fab fa-github-alt"></i>
+        <a href="https://github.com/Gio01">GitHub</a>
+        <br />
+        <i class="fab fa-twitter"></i>
+        <a href="https://twitter.com/Jon_Orudonesu">Twitter</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+    authDomain: "gymflow-47c9b.firebaseapp.com",
+    databaseURL: "https://gymflow-47c9b.firebaseio.com",
+    projectId: "gymflow-47c9b",
+    storageBucket: "gymflow-47c9b.appspot.com",
+    messagingSenderId: "728577478893",
+    appId: "1:728577478893:web:417f9380ebeeecd099bce4",
+    measurementId: "G-F647FJLRB7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Make auth and firestore references!
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  //listen for auth
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      setupUI(user)
+
+    } else {
+      setupUI();
+    }
+
+  });
+
+  //logout method
+  const logout = document.querySelector("#logout");
+  logout.addEventListener('click', (e) => {
+    e.preventDefault();
+    auth.signOut()
+  })
+
+  //login method
+  const loginForm = document.querySelector("#login-form");
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = loginForm['email'].value;
+    const pass = loginForm['pass'].value;
+
+    auth.signInWithEmailAndPassword(email, pass).then(cred => {
+      console.log(cred);
+    });
+    // reseting the form 
+    loginForm.reset();
+  })
+
+
+  const loggedOutLinks = document.querySelectorAll('.logged-out');
+  const loggedInLinks = document.querySelectorAll('.logged-in');
+
+  const setupUI = user => {
+    if (user) {
+      //toggle UI elements
+      loggedInLinks.forEach(item => {
+        item.style.display = 'block'
+      });
+      loggedOutLinks.forEach(item => {
+        item.style.display = 'none'
+      })
+    } else {
+      loggedInLinks.forEach(item => {
+        item.style.display = 'none'
+      });
+      loggedOutLinks.forEach(item => {
+        item.style.display = 'block'
+      })
+    }
+  };
+
+    //firebase.analytics();
+</script>
+
+<script>
+  $(".hamburger").click(function () {
+    $(".wrapper").toggleClass("collapse");
+  });
+</script>
+
+</html>

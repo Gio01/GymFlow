@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: #e1ecf2;
+        }
+
+        .wrapper .top_navbar {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            top: 0px;
+        }
+
+        .wrapper .top_navbar .hamburger {
+            width: 70px;
+            height: 100%;
+            background: rgb(32, 31, 31);
+            padding: 15px 17px;
+            /*border-top-left-radius: 20px;*/
+            cursor: pointer;
+        }
+
+        .wrapper .top_navbar .hamburger div {
+            width: 35px;
+            height: 4px;
+            background: #fff;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .wrapper .top_navbar .top_menu {
+            width: calc(100% - 70px);
+            height: 100%;
+            background: #fff;
+            border-top-right-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        }
+
+        .wrapper .top_navbar .top_menu .logo {
+            color: rgb(32, 31, 31);
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .wrapper .top_navbar .top_menu ul {
+            display: flex;
+        }
+
+        .wrapper .top_navbar .top_menu ul li a {
+            display: block;
+            margin: 0 10px;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border: 1px solid rgb(32, 31, 31);
+            border-radius: 50%;
+            color: rgb(32, 31, 31);
+        }
+
+        .wrapper .top_navbar .top_menu ul li a:hover {
+            background: rgb(32, 31, 31);
+            color: #fff;
+        }
+
+        .wrapper .top_navbar .top_menu ul li a:hover i {
+            color: #fff;
+        }
+
+        .wrapper .sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0px;
+            background: rgb(32, 31, 31);
+            width: 200px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .wrapper .sidebar ul li a {
+            display: block;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            margin-bottom: 1px;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .wrapper .sidebar ul li a:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: #fff;
+            display: none;
+        }
+
+        .wrapper .sidebar ul li a span.icon {
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a span.title {
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a:hover,
+        .wrapper .sidebar ul li a.active {
+            background: rgb(32, 31, 31);
+            color: #fff;
+        }
+
+        .wrapper .sidebar ul li a:hover:before,
+        .wrapper .sidebar ul li a.active:before {
+            display: block;
+        }
+
+        .wrapper .main_container {
+            width: (100% - 200px);
+
+            margin-left: 200px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .wrapper .main_container .item {
+
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 22px;
+        }
+
+        .wrapper.collapse .sidebar {
+            width: 70px;
+        }
+
+        .wrapper.collapse .sidebar ul li a {
+            text-align: center;
+        }
+
+        .wrapper.collapse .sidebar ul li a span.icon {
+            margin: 0;
+        }
+
+        .wrapper.collapse .sidebar ul li a span.title {
+            display: none;
+        }
+
+        .wrapper.collapse .main_container {
+            width: (100% - 70px);
+            margin-left: 70px;
+        }
+    </style>
+
+<script type="text/javascript" src="https://platform.fatsecret.com/js/static/script/final.js"></script>
+<script src="https://platform.fatsecret.com/js?key=6fde3dcb6dcf46c589985a16555a5f8e&fatsecret_session_key=<%=sk %>"></script>
+        <script>
+			function doLoad(){
+                //fatsecret.setCanvas("profile.sign_in");
+
+                fatsecret.setContainer("my_container");
+                fatsecret.setCanvas("home");
+                //fatsecret.setCanvasUrl("profile.sign_in","https://gymflow-47c9b.web.app/profile");
+                //fatsecret.setCanvasUrl("profile.sign_in","http://localhost:5001/gymflow-47c9b/us-central1/api/profile" );
+			}
+        </script>
+        <script id="fs_2494db58ae0d443c9b26d4400cdc9873_script" src="https://platform.fatsecret.com/js/Default.aspx?pg=home&amp;key=a8abdcd07de245fbb88c930cb2019b79&amp;uDate=1586182917312&amp;nonce=bf8PKpbSY5&amp;sep=fs_2494db58ae0d443c9b26d4400cdc9873&amp;v_an=31&amp;v_at=true"></script>
+</head>
+
+<body  onload="doLoad()">
+  
+
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="hamburger">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <p>GymFlow</p>
+                    <!--<img src="/img/GymFlow.jpg" alt=" GymFlow">-->
+                </div>
+                <ul>
+                    <li>
+                        <a href="/gymflow-47c9b/us-central1/api/login" display="none">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <br>
+                    <li>
+                        <a href="#" class="logged-out" display="none" id="logout">
+                            <i class="fas fa-sign-out-alt" style="padding-top: 0;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar" style="display: flex; position:fixed; height: 100%;">
+            <ul>
+                <li>
+                    <!--<a href="/api">-->
+                    <a href="/gymflow-47c9b/us-central1/api/" display="none">
+                        <span class=" icon"><i class="fas fa-home"></i></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <!--<a href="/api/fitness">-->
+                    <a href="/gymflow-47c9b/us-central1/api/fitness" display="none">
+                        <span class="icon"><i class="fas fa-dumbbell"></i></span>
+                        <span class="title">Fitness</span>
+                    </a>
+                </li>
+                <li>
+                    <!--<a href="/api/contact">-->
+                    <a class="logged-in" href="/gymflow-47c9b/us-central1/api/profile" display="none">
+                        <span class="icon"><i class="fas fa-id-card"></i></span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <!--<a href="/api/contact">-->
+                    <a href="/gymflow-47c9b/us-central1/api/contact" display="none">
+                        <span class="icon"><i class="fas fa-address-book"></i></span>
+                        <span class="title">Contact</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!---- Main content begins ------------------>
+
+        <div class="main_container">
+
+            <br>
+            <br>
+            <div class="item">
+                <h1>Profile</h1>
+                <br />
+                <div class="profile-data"></div>
+            </div>
+
+            <div class="item">
+                <h1>Bio</h1>
+                <br />
+                <div class="bio">
+                    Bio stuff.
+                </div>
+                <br>
+
+            </div>
+            <!--
+            <div class="item">
+                <h1>Social Media</h1>
+                <br />
+                <p class="media-acc">
+                    Media account links.
+                </p>
+                <br>
+
+            </div>
+        -->
+
+
+            <div class="item">
+                <!-- <h1>Workouts</h1>
+                <br />
+
+                <div id="workouts"
+                    style="height:200px;width:40em;border:1px solid #4e4e4e;font:16px Arial, Serif;overflow:auto;">
+                </div>
+            -->
+
+                <br>
+                <h1>Progress</h1>
+                <canvas id="LineChart" width="100" height="50"></canvas>
+
+                <br>
+              <!--  <h1>Today's Macros</h1>-->
+                <br>
+                <canvas id="MacrosChart" width="100" height="50"></canvas>
+
+            </div>
+
+            <div class='item' id='my_container'>
+
+                Login to FatSecret to get your macros <a href="#" onclick="fatsecret_doLogin()">here</a>
+<script type="text/javascript">
+
+var fatsecret_doLogin  = function(){ window.location.href = 'https://www.fatsecret.com/Auth.aspx?pa=clsi&referrerUrl=https%3a%2f%2fplatform.fatsecret.com%2fapi%2fstatic%2fsample%2fauthentication%2flogin.html&key=a8abdcd07de245fbb88c930cb2019b79&signature=vjqih%2brbRDxvBkU%2bLfp90FE7e9Y%3d'; }  ;
+</script>
+
+</div>
+
+
+
+
+            <!---- Main content ends ------------------>
+
+        </div>
+
+    </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+            authDomain: "gymflow-47c9b.firebaseapp.com",
+            databaseURL: "https://gymflow-47c9b.firebaseio.com",
+            projectId: "gymflow-47c9b",
+            storageBucket: "gymflow-47c9b.appspot.com",
+            messagingSenderId: "728577478893",
+            appId: "1:728577478893:web:417f9380ebeeecd099bce4",
+            measurementId: "G-F647FJLRB7"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Make auth and firestore references!
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        //listen for auth
+        auth.onAuthStateChanged(user => {
+            //if user is logged in then show data & if not then don't show anything
+            if (user) {
+                //console.log(user);
+
+                setupUI(user) //we need to pass the user into the setupUI
+                //to allow for the UI to appwar based on when the user is logged in or not
+
+            } else {
+                exercises([]);
+      
+
+            }
+
+        });
+        //logout method
+        const logout = document.querySelector("#logout");
+        logout.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                console.log("User Logged Out!");
+            });
+        })
+
+
+        const loggedOutLinks = document.querySelectorAll('.logged-out');
+        const loggedInLinks = document.querySelectorAll('.logged-in');
+        const profileData = document.querySelector('.profile-data');
+        const bio = document.querySelector('.bio');
+        const workouts = document.querySelector('#workouts');
+        //const media = document.querySelector('.media-acc');
+
+
+        const setupUI = user => {
+            if (user) {
+                // user account info
+                const html = `<div> Logged in as ${user.email}</div>`;
+                profileData.innerHTML = html; // we are assigng the value of profile to be the html variable
+                //console.log(user.uid);
+                db.collection('users').doc(user.uid).get().then(doc => {
+                    const html = `<div> Logged in as ${user.email}</div>`;
+                    profileData.innerHTML =
+                        html; // we are assigng the value of profile to be the html variable
+                    if (doc.data().bio) {
+                        const ubio = `<div> ${doc.data().bio}</div>`
+                        bio.innerHTML = ubio;
+                    } else {
+                        console.log('no user bio')
+                    }
+                });
+
+
+
+                let labelsArr = [];
+                var weightArr = [];
+                var timeArr = [];
+                var a = [];
+                var work = [];
+
+                chartIt();
+                //doughnutChart();
+
+                async function getData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').orderBy('createdAt')
+                        .get().then(data => {
+                            data.forEach(doc => {
+
+                                var exercise = doc.data().exercise;
+                                labelsArr.push(exercise);
+
+                                var weight = doc.data().weight;
+                                weightArr.push(weight);
+
+                                var date = doc.data().createdAt;
+                                var d = date.toDate();
+
+
+                                a = (d.getMonth() + 1 )+ '/' + d.getDate();
+
+                                if (timeArr.length < 32) {
+                                    if (timeArr.includes(a) == false) {
+                                        timeArr.push(a);
+                                    }
+                                } else {
+                                    if (timeArr.includes(a) == false) {
+                                        timeArr.shift();
+                                    }
+                                }
+
+                            });
+
+                        });
+                }
+
+                //NOTE: In order to get the documents in order by the createdAt I had to create an index in firebase so that it woill
+                //get stored into firebase and ordered there in createdAt order. Go to databases in firebase and then go to index to see what the index is that I made to get this to work!
+                var benchw = [];
+                var finalbench = [];
+                async function getBenchData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'bench').orderBy('createdAt').get().then(data => {
+                        var time = [];
+                        var b;
+                        var benchtime = [];
+
+                        data.forEach(doc => {
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a)
+
+                            b = doc.data().weight;
+                          
+                            benchw.push(b)
+
+                        })
+                        
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            benchtime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                benchtime[j] = t;
+                                                t = time[i + 1];
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                benchtime[i] = time[i];
+                            }
+                        }
+
+
+                        for (let j = 0; j < benchw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == benchtime[i]) {
+                                        finalbench[i] = benchw[j];
+                                        j++;
+                                    } else if (timeArr[i] != benchtime[i]) {
+                                        finalbench[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    })
+
+                }
+             
+                var squatw = [];
+                var finalsquat = [];
+                async function getSquatData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'squat').orderBy('createdAt').get().then(data => {
+                        var time = [];
+                        var squattime = [];
+                        var a = [];
+                        data.forEach(doc => {
+
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a);
+                            var b = doc.data().weight;
+                            squatw.push(b);
+
+                        })
+
+
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            squattime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                squattime[j] = t;
+                                                t = time[i + 1];
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                squattime[i] = time[i];
+                            }
+                        }
+
+                        for (let j = 0; j < squatw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == squattime[i]) {
+                                        finalsquat[i] = squatw[j];
+                                        j++;
+                                    } else if (timeArr[i] != squattime[i]) {
+                                        finalsquat[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    })
+                }
+
+                var pullupw = [];
+                var finalpullup = [];
+                async function getPullUpData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'pull ups').get().then(data => {
+                        var time = [];
+                        var pulluptime = [];
+                        var a = [];
+                        data.forEach(doc => {
+
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a);
+                            var b = doc.data().weight;
+                            pullupw.push(b);
+
+
+                        })
+
+
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            pulluptime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                pulluptime[j] = t;
+                                                t = time[i + 1];
+                                                i++;
+                                            } else {
+                                                break;
+                                            }
+                                        }
+
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                pulluptime[i] = time[i];
+                            }
+                        }
+
+
+                        for (let j = 0; j < pullupw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == pulluptime[i]) {
+                                        finalpullup[i] = pullupw[j];
+                                        j++;
+                                    } else if (timeArr[i] != pulluptime[i]) {
+                                        finalpullup[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+
+                    })
+                }
+
+
+                var ctx = document.getElementById('LineChart').getContext('2d');
+                var macros = document.getElementById('MacrosChart').getContext('2d');
+
+                async function chartIt() {
+
+                    await getData();
+                    await getBenchData();
+                    await getPullUpData();
+                    await getSquatData();
+
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: timeArr,
+                            datasets: [{
+                                    fill: false,
+                                    label: ['squat'],
+                                    backgroundColor: 'rgb(0, 32, 255)',
+                                    borderColor: 'rgb(0, 32, 255)',
+                                    data: finalsquat
+                                },
+                                {
+                                    fill: false,
+                                    label: ['bench'],
+                                    backgroundColor: 'rgb(20, 32, 25)',
+                                    borderColor: 'rgb(20, 32, 25)',
+                                    data: finalbench
+                                },
+                                {
+                                    fill: false,
+                                    label: ['pullups'],
+                                    backgroundColor: 'rgb(20, 32, 125)',
+                                    borderColor: 'rgb(20, 32, 125)',
+                                    data: finalpullup
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: 500
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+                //--------------------------------- Pie Chart Data
+            
+/*
+                async function doughnutChart() {
+                    await getProteinData();
+                    //await getCarbData();
+                    //await getFatData();
+
+                    var myDoughnutChart = new Chart(macros, {
+                        type: 'polarArea',
+                        data: {
+                            datasets: [{
+                                label: ['Protein', 'Carbs', 'Fats'],
+                                data: [24.84, 0, 0],
+                                backgroundColor: ["rgb(0,0,139)", "rgb(100,149,237)",
+                                    "rgb(95,158,160)"
+                                ],
+                                hoverBackgroundColor: ["rgb(0,0,139)", "rgb(100,149,237)",
+                                    "rgb(95,158,160)"
+                                ]
+                            }],
+                            labels: ['Protein', 'Carbs', 'Fats']
+                        }
+                    })
+
+                }
+*/
+
+
+                //toggle UI elements
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'block'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'none'
+                })
+            } else {
+
+                profileData.innerHTML = '';
+
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'none'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'block'
+                })
+            }
+        };
+    </script>
+
+    <!--
+    <script>
+        $(".hamburger").click(function () {
+            $(".wrapper").toggleClass("collapse");
+        });
+    </script>
+-->
+</body>
+
+</html>

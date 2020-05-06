@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymFlow</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-decoration: none;
+      box-sizing: border-box;
+      font-family: "Montserrat", sans-serif;
+    }
+
+    body {
+      background: #e1ecf2;
+    }
+
+    .wrapper .top_navbar {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      top: 0px;
+    }
+
+    .wrapper .top_navbar .hamburger {
+      width: 70px;
+      height: 100%;
+      background: rgb(32, 31, 31);
+      padding: 15px 17px;
+      /*border-top-left-radius: 20px;*/
+      cursor: pointer;
+    }
+
+    .wrapper .top_navbar .hamburger div {
+      width: 35px;
+      height: 4px;
+      background: #fff;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+
+    .wrapper .top_navbar .top_menu {
+      width: calc(100% - 70px);
+      height: 100%;
+      background: #fff;
+      border-top-right-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      position: sticky;
+    }
+
+    .wrapper .top_navbar .top_menu .logo {
+      color: rgb(32, 31, 31);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .wrapper .top_navbar .top_menu ul {
+      display: flex;
+    }
+
+    .wrapper .top_navbar .top_menu ul li a {
+      display: block;
+      margin: 0 10px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      border: 1px solid rgb(32, 31, 31);
+      border-radius: 50%;
+      color: rgb(32, 31, 31);
+    }
+
+    .wrapper .top_navbar .top_menu ul li a:hover {
+      background: rgb(32, 31, 31);
+      color: #fff;
+    }
+
+    .wrapper .top_navbar .top_menu ul li a:hover i {
+      color: #fff;
+    }
+
+    .wrapper .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0px;
+      background: rgb(32, 31, 31);
+      width: 200px;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .wrapper .sidebar ul li a {
+      display: block;
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      margin-bottom: 1px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .wrapper .sidebar ul li a:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: #fff;
+      display: none;
+    }
+
+    .wrapper .sidebar ul li a span.icon {
+      margin-right: 10px;
+      display: inline-block;
+    }
+
+    .wrapper .sidebar ul li a span.title {
+      display: inline-block;
+    }
+
+    .wrapper .sidebar ul li a:hover,
+    .wrapper .sidebar ul li a.active {
+      background: rgb(32, 31, 31);
+      color: #fff;
+    }
+
+    .wrapper .sidebar ul li a:hover:before,
+    .wrapper .sidebar ul li a.active:before {
+      display: block;
+    }
+
+    .wrapper .main_container {
+    
+      margin-left: 200px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .wrapper .main_container .item {
+
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .wrapper.collapse .sidebar {
+      width: 70px;
+    }
+
+    .wrapper.collapse .sidebar ul li a {
+      text-align: center;
+    }
+
+    .wrapper.collapse .sidebar ul li a span.icon {
+      margin: 0;
+    }
+
+    .wrapper.collapse .sidebar ul li a span.title {
+      display: none;
+    }
+
+    .wrapper.collapse .main_container {
+      width: (100% - 70px);
+      margin-left: 70px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+  <div class="wrapper" style="display:flex; flex-direction:column;">
+    <div class="top_navbar">
+      <div class="hamburger">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+      </div>
+      <div class="top_menu">
+        <div class="logo">
+          <p>GymFlow</p>
+          <!--<img src="/img/GymFlow.jpg" alt=" GymFlow">-->
+        </div>
+        <ul>
+          <li>
+           <!-- <a href="/gymflow-47c9b/us-central1/api/login" display="none">
+            </a>-->
+              <a href="/gymflow-47c9b/us-central1/api/login" display="none">
+                   <i class="fas fa-user"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="logged-in" display="none" id="logout">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+<div style="flex: 1 1 auto; display: flex;">
+    <div class="sidebar">
+      <ul style="position: sticky; top:0;">
+        <li>
+          <!--<a href="/api">-->
+          <a href="/gymflow-47c9b/us-central1/api/" display="none">
+            <span class=" icon"><i class="fas fa-home"></i></span>
+            <span class="title">Home</span>
+          </a>
+        </li>
+        <li>
+          <!--<a href="/api/fitness">-->
+          <a href="/gymflow-47c9b/us-central1/api/fitness" display="none" class="logged-in">
+            <span class="icon"><i class="fas fa-dumbbell"></i></span>
+            <span class="title">Fitness</span>
+          </a>
+        </li>
+        <li class="logged-in">
+          <!--<a href="/api/contact">-->
+          <a href="/gymflow-47c9b/us-central1/api/profile">
+            <span class="icon"><i class="fas fa-id-card"></i></span>
+            <span class="title">Profile</span>
+          </a>
+        </li>
+        <li>
+          <!--<a href="/api/contact">-->
+          <a href="/gymflow-47c9b/us-central1/api/contact" display="none">
+            <span class="icon"><i class="fas fa-address-book"></i></span>
+            <span class="title">Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <div class="main_container">
+      <img
+        src="https://images.unsplash.com/photo-1551980913-630eafe3eb05?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+        alt="Gym" style="width: 80%; height: 20em; margin-left: 7em;" />
+      <br>
+      <br>
+      <div class="item">
+        <h1>Purpose & Functionality</h1>
+        <br />
+        <p>
+          GymFlow is a fitness web application for users to track their
+          workouts, caloric intake, and body weight by inputting data such as
+          exercises and weights used. This data will be recorded and stored in
+          a database. Every user will be able to create an account with their
+          own personalized data. The user will be able to see their data using
+          graphs to allow the user to visualize their progress over time. If
+          the user decides to track their daily calorie intake, then they
+          should be able to search specific foods by name and find its
+          nutritional facts. The user will be able to record their weight to
+          see overall progress in weight loss or gain. The nutritional facts
+          associated with the food will come from a Food & Nutrition Database
+          so that users have an accurate estimate of the calories consumed
+          within a day. The purpose of GymFlow is to provide a web application
+          that is easy to use and motivates users to continue their fitness
+          journey.
+        </p>
+      </div>
+      <div class="item">
+        <h1>Fitness</h1>
+        <br />
+        <p>
+          The user will be able to create an account and upload information
+          such as exercises, weights used at the gym, and caloric intake which
+          will all be stored into Firebase. For the caloric intake, the user
+          will be able to search certain foods and be able to see nutritional
+          facts about the foods, and also be able to store the foods they ate
+          into the database where they have a record of their daily caloric
+          consumption.
+        </p>
+        <br>
+        <img src="https://platform.fatsecret.com/api/static/images/jsapi/searchresultgrey.jpg" alt="Macros"
+          style="height: 200px; width: 250px; margin-left: 25em;" />
+      </div>
+
+      <div class="item">
+        <h1>Charts</h1>
+        <br />
+        <p>
+          through their database and then be able to store the food’s
+          nutritional facts into my database. Once the user data has been
+          stored into the database, the user will be able to see their data in
+          a graphical representation through the use of Chartist.js or
+          Chart.js which have nice graphical presentations for users to see
+          their progress over time
+        </p>
+        <br>
+        <img src="http://doctorscotthealth.com/wp-content/uploads/2013/11/Macronutrient-Ratio-For-Fat-Loss-268x300.jpg"
+          alt="Macros" style="height: 200px; width: 200px; margin-left: 12em;" />
+        <img src="https://miro.medium.com/max/2578/1*r1Swaq6ARa6uD83k85mkFA.png" alt="Weight Loss"
+          style="height: 200px; width: 300px; margin-left: 12em;" />
+      </div>
+      <div class="item">
+        <h1>User Reviews</h1>
+        <br>
+        <p>"I like the color scheme and the organization of the website. It 
+          looks professional and aesthetically pleasing." -- Sergio DePauw</p>
+          <br>
+          <p>"I love the fact that this service allows me to track my progress through graphs/charts and
+            allows me to see the data of my progress which many platforms lack. Additionally, having nutritional labels
+            makes it easy to find with a click of a search button. It is super helpful in tracking my calories and the essentials like protein,
+            carbs, fat and sugar. Overall great layout and easy to follow and would most definitely recommend to my friends!!"
+            -- Johnny Bonilla
+          </p>
+          <br>
+          <p>
+            
+          </p>
+      </div>
+
+      <div class="item">
+        <div class="profile-data"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <script>
+    $(".hamburger").click(function () {
+      $(".wrapper").toggleClass("collapse");
+    });
+  </script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+      authDomain: "gymflow-47c9b.firebaseapp.com",
+      databaseURL: "https://gymflow-47c9b.firebaseio.com",
+      projectId: "gymflow-47c9b",
+      storageBucket: "gymflow-47c9b.appspot.com",
+      messagingSenderId: "728577478893",
+      appId: "1:728577478893:web:417f9380ebeeecd099bce4",
+      measurementId: "G-F647FJLRB7"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // firebase.analytics();
+
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      //if user is logged in then show data & if not then don't show anything
+
+      if (user) {
+        console.log('user is signed in');
+        setupUI(user)
+
+      } else {
+        console.log('user is signed out');
+        setupUI();
+      }
+
+    });
+
+    //logout method
+    const logout = document.querySelector("#logout");
+    logout.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        console.log("User Logged Out!");
+      });
+    })
+    const loggedOutLinks = document.querySelectorAll('.logged-out');
+    const loggedInLinks = document.querySelectorAll('.logged-in');
+    const profileData = document.querySelector('.profile-data')
+    const setupUI = user => {
+      if (user) {
+        const html = `<div> Logged in as ${user.email}</div>`;
+        profileData.innerHTML = html;  // we are assigng the value of profile to be the html variable
+        console.log(html);
+        //toggle UI elements
+        loggedInLinks.forEach(item => {
+          item.style.display = 'block'
+        });
+        loggedOutLinks.forEach(item => {
+          item.style.display = 'none'
+        })
+      } else {
+        profileData.innerHTML = '';
+        loggedInLinks.forEach(item => {
+          item.style.display = 'none'
+        });
+        loggedOutLinks.forEach(item => {
+          item.style.display = 'block'
+        })
+      }
+    };
+
+  </script>
+
+</body>
+
+</html>
