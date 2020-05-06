@@ -8,16 +8,6 @@ const crypto = require('crypto');
 
 // Initialize
 var serviceAccount = {
-    type: "service_account",
-    project_id: "gymflow-47c9b",
-    private_key_id: "2950deafa713752e8632b876f9a2bdeeae303213",
-    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDAatgfk01eX7eE\nuQW99JP7AJdVh7He5ywh19N0QKCcfb4t55nwT5Gu3YNGgbGAx3RuCavWqfqpNsV2\nlL5IEIKzi2AOnrpdb9XXtjMLyl0EjLjC89yFut7j7YdT+SZ7MD4EE+Y4gzsNyHAY\n08OYu+CDzdmulpQG8lwJrxocYQnUmWUcDPRK2Z6CQoj1yc/GwsCf2STH1859hZa1\n4G7/KsSGxVpDcke+1ib8HInJ5vDW9f6oGvEXd7c6BOaxmLTdXl6Q43r7Nabd5puN\nF3dvgWKQrNsGu1cTeeRLuVCQAG38/0Eu3dHpzRUcSzoMWrQx75T6W4Nxk7wijI3p\nritZojUhAgMBAAECggEAGt8A6h3v1NFgp1YQZXfxr4CkYbMmxaZ6fQpvMwGwfFI6\nHB6HGq59/ZHdOpwzjfSsv441s29+/CEUP+xjS1yU6B57bmc/xvsufaap58hdp5xA\nVCdqoTlY1bNO7gzyEQuKaZbe1H8NIO5gKzNtkheQsc9uSimop/SyIj8UEikCDrCT\n7aKGajjbID6a+hQ64xY5jMaUltiEvPqj5791mnztZGKwqx2Mw48HZdwEriD71ftj\nY5Ahn/kkpNyYUk5pn5QpCMlCJ4s3vxh/bN3p/JLhy3QOP71uT2Cg5o2oY7If+Pic\nVmHLcwsRGnw4y1Uu7MLOtjHJsDtFB2YhwbqrYNFEzQKBgQD5CuWk0gsBSJUdGdpr\n2qaGJIS342xbcKEIPgZo256aPljrl5Mtn0OZJDh65nGSR8jpEIkfqXrYbEk/yLhK\n/6B4HApw3Ba5FR7vY6HipaA+T5fWxN9kNEm6xytpnTQ9TWWcK0DI979Vw568zL0b\noIM3nFp1CWV9PxaHY1rT9152HQKBgQDFyvmXCx/KgD/b0qu8W8vgjdtrIAmW8AQP\n+KRi4Qm5euNvPkRY789y4AoyJGVrdHpvfG/ZRcyvwX7zAFLv1bTDsldoi0oNawNy\nTqM6N82fERENk9Ei7MGDmeUOIh4bNx5d2TLDSaGbP32Uo1AUlIkc6hPFt1HL/ekN\njm6qkFJ71QKBgGuten05E+kKKO7cLsRTVYzKXVfkzQT8PaQCrWLJElo+etPiRZCE\nPAYK0yDQYmqM/yFGNQOrk6HfsAwUDRrgS9GiziDeCDUeHLIEsgn88rv+TfheRvhc\nY0SOuQaBIgUfYb+UM/6wn9nFKu0W2O0JCbMRt0rDNU5h6KvBGZRscDtBAoGAIoLe\n987WFjQ4cDebBXuS4DSAQ3nMkoyAePTuYd5YHwflJSTdMhNtw+J5hPQ6yfwB3O/+\naA+4vjXp26aD0hsctkSo4bHkEuFIMaqs6lyQQR/uNMtE424h+b9hawzi6ea9Iqzi\nIZb4Xqk+VTAFqgGcxvHEz2vEFu7PujDO+G3EJp0CgYEAlBfzwqY0123KEnwbwQ0N\nBEI/TS0Rh6Hi5rZ+Gjc2KIYqBKvj7ly1Ke8KcENxM6UHkm/NabJyBSH+2usIX6/S\nZXxw+9uZb8YYoA93c004TUav/nzyXxDH6kr3QN3u+aDwz3fKxiMlCLwAwW+12waC\nK2hfy7woCsqHjim5sTLcv3g=\n-----END PRIVATE KEY-----\n",
-    client_email: "firebase-adminsdk-d9c1h@gymflow-47c9b.iam.gserviceaccount.com",
-    client_id: "100190534801057623115",
-    auth_uri: "https://accounts.google.com/o/oauth2/auth",
-    token_uri: "https://oauth2.googleapis.com/token",
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-d9c1h%40gymflow-47c9b.iam.gserviceaccount.com"
 };
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: "https://gymflow-47c9b.firebaseio.com" });
@@ -130,9 +120,9 @@ const url = "https://platform.fatsecret.com/rest/server.api";
 const uuid = require('uuid');
 const oauth_nonce = uuid.v1();
 //-------------------------------------------->
-const apiKey = '6fde3dcb6dcf46c589985a16555a5f8e';
+const apiKey = '';
 const fatSecretRestUrl = 'http://platform.fatsecret.com/rest/server.api';
-var sharedSecret = '9b8971b8248c4e33aec7d4b2db24fa09';
+var sharedSecret = '';
 const date = new Date();
 
 // Note that the keys are in alphabetical order
@@ -198,8 +188,8 @@ app.get("/profile", async (req, res) => {
 })
 
 app.get("/fatstorage", async (req, res) => {
-    var fatsecret_session_key = '6fde3dcb6dcf46c589985a16555a5f8e';
-    var clientSecret = '9b8971b8248c4e33aec7d4b2db24fa09';
+    var fatsecret_session_key = '';
+    var clientSecret = '';
     const api_url = `https://platform.fatsecret.com/js?fatsecret_session_key=${fatsecret_session_key}`;
     const json = await res.json();
     console.log(json);
