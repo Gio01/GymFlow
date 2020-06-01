@@ -23,7 +23,7 @@ body {
 .wrapper .top_navbar .hamburger {
   width: 70px;
   height: 100%;
-  background: #4682b4;
+  background: rgb(32, 31, 31);
   padding: 15px 17px;
   /*border-top-left-radius: 20px;*/
   cursor: pointer;
@@ -51,7 +51,7 @@ body {
 }
 
 .wrapper .top_navbar .top_menu .logo {
-  color: #4682b4;
+  color: rgb(32, 31, 31);
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -68,13 +68,13 @@ body {
   height: 35px;
   line-height: 35px;
   text-align: center;
-  border: 1px solid #4682b4;
+  border: 1px solid rgb(32, 31, 31);
   border-radius: 50%;
-  color: #4682b4;
+  color: rgb(32, 31, 31);
 }
 
 .wrapper .top_navbar .top_menu ul li a:hover {
-  background: #4682b4;
+  background: rgb(32, 31, 31);
   color: #fff;
 }
 
@@ -83,10 +83,10 @@ body {
 }
 
 .wrapper .sidebar {
-  position: fixed;
+  position: absolute;
   top: 60px;
   left: 0px;
-  background: #4682b4;
+  background: rgb(32,31,31);
   width: 200px;
   height: 100%;
   transition: all 0.3s ease;
@@ -124,7 +124,7 @@ body {
 
 .wrapper .sidebar ul li a:hover,
 .wrapper .sidebar ul li a.active {
-  background: #4682b4;
+  background: rgb(32,31,31);
   color: #fff;
 }
 
@@ -168,4 +168,9 @@ body {
 .wrapper.collapse .main_container {
   width: (100% - 70px);
   margin-left: 70px;
+}
+
+.main{
+  flex: 1 1 auto;
+  display: flex;
 }
