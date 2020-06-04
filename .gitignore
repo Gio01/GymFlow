@@ -65,6 +65,6 @@ node_modules/
 .env
 
 
-/GymFlow/functions/gymflow-47c9b-firebase-adminsdk-d9c1h-fbef52e519.json
+GymFlow/functions/gymflow-47c9b-firebase-adminsdk-d9c1h-fbef52e519.json
 
-/Gymflow/public/scripts/firebase_config.json
+Gymflow/public/scripts/firebase_config.json
