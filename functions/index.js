@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 
 // Initialize
-var serviceAccount = require("./gymflow-47c9b-firebase-adminsdk-d9c1h-fbef52e519.json");
+var serviceAccount = require("./gymflow-47c9b-firebase-adminsdk-d9c1h-6e99d8886a.json");
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: "https://gymflow-47c9b.firebaseio.com" });
 
