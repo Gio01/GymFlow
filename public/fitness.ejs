@@ -150,9 +150,401 @@
             <!-- TODO: Add SDKs for Firebase products that you want to use
  https://firebase.google.com/docs/web/setup#available-libraries -->
             <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+	    <script>
+ // Your web app's Firebase configurationvar 
+var firebaseConfig = {
+  "apiKey": "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+  "authDomain": "gymflow-47c9b.firebaseapp.com",
+  "databaseURL": "https://gymflow-47c9b.firebaseio.com",
+  "projectId": "gymflow-47c9b",
+  "storageBucket": "gymflow-47c9b.appspot.com",
+  "messagingSenderId": "728577478893",
+  "appId": "1:728577478893:web:d86266b8cfa6b13f99bce4",
+  "measurementId": "G-M97878F1TC"
+};;
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Make auth and firestore references!
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+//listen for auth
+auth.onAuthStateChanged(user => {
+            //if user is logged in then show data & if not then don't show anything
+            if (user) {
+                //console.log(user);
+
+                setupUI(user) //we need to pass the user into the setupUI
+                //to allow for the UI to appwar based on when the user is logged in or not
+
+            } else {
+                exercises([]);
+      
+
+           }
+
+        });
+        //logout method
+        const logout = document.querySelector("#logout");
+        logout.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                console.log("User Logged Out!");
+            });
+        })
 
 
-	<script src="./scripts/fitness.js"> </script>
+        const loggedOutLinks = document.querySelectorAll('.logged-out');
+        const loggedInLinks = document.querySelectorAll('.logged-in');
+        const workouts = document.querySelector('#workouts');
+        //const media = document.querySelector('.media-acc');
+
+
+        const setupUI = user => {
+            if (user) {
+
+
+                let labelsArr = [];
+                var weightArr = [];
+                var timeArr = [];
+                var a = [];
+                var work = [];
+
+                chartIt();
+                doughnutChart();
+
+                async function getData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').orderBy('createdAt')
+                        .get().then(data => {
+                            data.forEach(doc => {
+
+                                var exercise = doc.data().exercise;
+                                labelsArr.push(exercise);
+
+                                var weight = doc.data().weight;
+                                weightArr.push(weight);
+
+                                var date = doc.data().createdAt;
+                                var d = date.toDate();
+
+
+                                a = (d.getMonth() + 1 )+ '/' + d.getDate();
+
+                                if (timeArr.length < 32) {
+                                    if (timeArr.includes(a) == false) {
+                                        timeArr.push(a);
+                                    }
+                                } else {
+                                    if (timeArr.includes(a) == false) {
+                                        timeArr.shift();
+                                    }
+                                }
+
+                            });
+
+                        });
+                }
+
+                //NOTE: In order to get the documents in order by the createdAt I had to create an index in firebase so that it woill
+                //get stored into firebase and ordered there in createdAt order. Go to databases in firebase and then go to index to see what the index is that I made to get this to work!
+                var benchw = [];
+                var finalbench = [];
+                async function getBenchData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'bench').orderBy('createdAt').get().then(data => {
+                        var time = [];
+                        var b;
+                        var benchtime = [];
+
+                        data.forEach(doc => {
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a)
+
+                            b = doc.data().weight;
+                          
+                            benchw.push(b)
+
+                        })
+                        
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            benchtime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                benchtime[j] = t;
+                                                t = time[i + 1];
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                benchtime[i] = time[i];
+                            }
+                        }
+
+
+                        for (let j = 0; j < benchw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == benchtime[i]) {
+                                        finalbench[i] = benchw[j];
+                                        j++;
+                                    } else if (timeArr[i] != benchtime[i]) {
+                                        finalbench[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    })
+
+                }
+             
+                var squatw = [];
+                var finalsquat = [];
+                async function getSquatData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'squat').orderBy('createdAt').get().then(data => {
+                        var time = [];
+                        var squattime = [];
+                        var a = [];
+                        data.forEach(doc => {
+
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a);
+                            var b = doc.data().weight;
+                            squatw.push(b);
+
+                        })
+
+
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            squattime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                squattime[j] = t;
+                                                t = time[i + 1];
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                squattime[i] = time[i];
+                            }
+                        }
+
+                        for (let j = 0; j < squatw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == squattime[i]) {
+                                        finalsquat[i] = squatw[j];
+                                        j++;
+                                    } else if (timeArr[i] != squattime[i]) {
+                                        finalsquat[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    })
+                }
+
+                var pullupw = [];
+                var finalpullup = [];
+                async function getPullUpData() {
+                    await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
+                        'pull ups').get().then(data => {
+                        var time = [];
+                        var pulluptime = [];
+                        var a = [];
+                        data.forEach(doc => {
+
+                            var date = doc.data().createdAt;
+                            var d = date.toDate();
+
+                            a = d.getMonth() + '/' + d.getDate();
+
+                            time.push(a);
+                            var b = doc.data().weight;
+                            pullupw.push(b);
+
+
+                        })
+
+
+                        for (let i = 0; i < time.length - 1; i++) {
+                            if (timeArr[i] != time[i]) {
+                                let t = time[i];
+                                for (let j = i; j < timeArr.length; j++) {
+                                    if (j <= timeArr.length) {
+                                        if (timeArr[j] != t) {
+                                            pulluptime[j] = null;
+                                        } else {
+                                            if (i <= time.length) {
+                                                pulluptime[j] = t;
+                                                t = time[i + 1];
+                                                i++;
+                                            } else {
+                                                break;
+                                            }
+                                        }
+
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                pulluptime[i] = time[i];
+                            }
+                        }
+
+
+                        for (let j = 0; j < pullupw.length; j++) {
+                            for (let i = 0; i < timeArr.length; i++) {
+                                if (i < timeArr.length) {
+                                    if (timeArr[i] == pulluptime[i]) {
+                                        finalpullup[i] = pullupw[j];
+                                        j++;
+                                    } else if (timeArr[i] != pulluptime[i]) {
+                                        finalpullup[i] = null;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+
+                    })
+                }
+
+
+                var ctx = document.getElementById('LineChart').getContext('2d');
+                var macros = document.getElementById('MacrosChart').getContext('2d');
+
+                async function chartIt() {
+
+                    await getData();
+                    await getBenchData();
+                    await getPullUpData();
+                    await getSquatData();
+
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: timeArr,
+                            datasets: [{
+                                    fill: false,
+                                    label: ['squat'],
+                                    backgroundColor: 'rgb(0, 32, 255)',
+                                    borderColor: 'rgb(0, 32, 255)',
+                                    data: finalsquat
+                                },
+                                {
+                                    fill: false,
+                                    label: ['bench'],
+                                    backgroundColor: 'rgb(20, 32, 25)',
+                                    borderColor: 'rgb(20, 32, 25)',
+                                    data: finalbench
+                                },
+                                {
+                                    fill: false,
+                                    label: ['pullups'],
+                                    backgroundColor: 'rgb(20, 32, 125)',
+                                    borderColor: 'rgb(20, 32, 125)',
+                                    data: finalpullup
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: 500
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+                //--------------------------------- Pie Chart Data
+            
+
+                async function doughnutChart() {
+                    //await getProteinData();
+                    //await getCarbData();
+                    //await getFatData();
+
+                    var myDoughnutChart = new Chart(macros, {
+                        type: 'pie',
+                        data: {
+			    labels: ['Carbs','Protein','Fats'],
+                            datasets: [{
+                                label: ['Protein', 'Carbs', 'Fats'],
+                                data: [200, 130, 80],
+                                backgroundColor: ["#572991", "#001399",
+                                    "#C4023"
+                                ],
+				    backgroundColor: ["#572991", "#001399",
+					    "#C4023"
+                                ]
+                            }],
+                        }
+                    })
+
+                }
+
+
+
+                //toggle UI elements
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'block'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'none'
+                })
+            } else {
+
+                profileData.innerHTML = '';
+
+                loggedInLinks.forEach(item => {
+                    item.style.display = 'none'
+                });
+                loggedOutLinks.forEach(item => {
+                    item.style.display = 'block'
+                })
+            }
+        }; 
+
+</script>
 </body>
 
 </html>
