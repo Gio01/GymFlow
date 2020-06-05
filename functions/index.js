@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 
 // Initialize
-var serviceAccount = require("./gymflow-47c9b-firebase-adminsdk-d9c1h-6e99d8886a.json");
+var serviceAccount = require("./adminsdk");
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: "https://gymflow-47c9b.firebaseio.com" });
 
@@ -139,7 +139,7 @@ var reqObj = {
 };
 //mario@att.net == R41ndy7hvwU3yQnU3tfnuoA69jv1
 //tom@gmail.com == 1M53F8I9tASvYL2pibYyb2l0JKY2
- 
+
 // construct a param=value& string and uriEncode
 var paramsStr = '';
 for (var i in reqObj) {
@@ -178,12 +178,12 @@ app.get("/profile", async (req, res) => {
        // console.log("DATA: " + data + "\n");
         var xml = data;
        parseString(xml, function (err, result) {
-         
+
           res.render("profile", {sk: result.profile.session_key[0]});
           //return result.profile.session_key[0];
       });
       });
-   
+
 })
 
 app.get("/fatstorage", async (req, res) => {
