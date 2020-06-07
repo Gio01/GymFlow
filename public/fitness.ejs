@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>GymFlow</title>
-    <link rel="stylesheet" href="./styles/index.css"> 
+    <link rel="stylesheet" href="./styles/index.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
@@ -25,7 +25,7 @@
             </div>
             <div class="top_menu">
                 <div class="logo">
-                	<img src="./img/GymFlow.jpeg" alt="GymFlow" 
+                	<img src="./img/GymFlow.jpeg" alt="GymFlow"
 			style="height: 50%; width:55%;">
 		</div>
                 <ul>
@@ -68,19 +68,19 @@
             </ul>
         </div>
 
-        <div class="main_container"> 
-            
-	<div class="item">
-	<form class="workout-form">
+        <div class="main_container">
 
-              
+	<div class="item" >
+
+
                 <h2>Enter New Workout:</h2>
 
                 <br>
+
                 Choose Exercise:<br>
 
                 <br>
-                <select name="ExerciseName">
+                <select id="ExerciseName">
                     <option value="bench">Bench Press</option>
                     <option value="squat">Squat</option>
                     <option value="pull ups">Pull Ups</option>
@@ -88,16 +88,16 @@
                 </select>
                 <br>
                 <br>Number of Sets<br>
-                <input type="text" name="NumSets" required>
+                <input type="text" id="NumSets" required>
                 <br>
                 <br>Number of Reps<br>
-                <input type="text" name="NumReps" required>
+                <input type="text" id="NumReps" required>
                 <br>
                 <br> Weight used (lb):<br>
-                <input type="text" name="WeightUsed" required>
+                <input type="text" id="WeightUsed" required>
                 <br><br>
-                <input type="submit" value="Submit">
-            </form>
+                <button id="workout_form" value="Submit" >Submit </button>
+
 
             <br>
             <h2>Search your exercises:</h2>
@@ -110,34 +110,16 @@
             <div id="userExercises"
                 style="height:100px;width:400px;border:1px solid #4e4e4e;font:16px Arial, Serif;overflow:auto;"> </div>
 
-            <div class="main_container2">
-                <!--
-                <script
-                    src="https://platform.fatsecret.com/js?key=6fde3dcb6dcf46c589985a16555a5f8e&auto_load=true&theme=grey">
-
-                    </script>
-
-                <script src="https://platform.fatsecret.com/js">
-
-                    const ACCESS_KEY = '';
-                    const APP_SECRET = '';
-                    var api = new FatSecretAPI(ACCESS_KEY, APP_SECRET);
-                    console.log(api)
-
-                </script>
-                <script
-                    src="https://platform.fatsecret.com/js?fatsecret_session_key=6fde3dcb6dcf46c589985a16555a5f8e"></script>
-
-
-            -->
             </div>
-	</div>
-	<div class="item"> 
-		<canvas id="LineChart" width="100" height="50"> </canvas>
+
+
+
+	<div class="item" >
+<canvas id="LineChart" width="100" height="50"> </canvas>
 	</div>
 	<div class="item">
 		<canvas id="MacrosChart" width="100" height="50"> </canvas>
-		
+
 	</div>
 	</div>
             <script src="./scripts/navscripts.js"> </script>
@@ -151,7 +133,7 @@
  https://firebase.google.com/docs/web/setup#available-libraries -->
             <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
 	    <script>
- // Your web app's Firebase configurationvar 
+ // Your web app's Firebase configurationvar
 var firebaseConfig = {
   "apiKey": "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
   "authDomain": "gymflow-47c9b.firebaseapp.com",
@@ -169,22 +151,6 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-//listen for auth
-auth.onAuthStateChanged(user => {
-            //if user is logged in then show data & if not then don't show anything
-            if (user) {
-                //console.log(user);
-
-                setupUI(user) //we need to pass the user into the setupUI
-                //to allow for the UI to appwar based on when the user is logged in or not
-
-            } else {
-                exercises([]);
-      
-
-           }
-
-        });
         //logout method
         const logout = document.querySelector("#logout");
         logout.addEventListener('click', (e) => {
@@ -198,12 +164,38 @@ auth.onAuthStateChanged(user => {
         const loggedOutLinks = document.querySelectorAll('.logged-out');
         const loggedInLinks = document.querySelectorAll('.logged-in');
         const workouts = document.querySelector('#workouts');
+        const workoutForm = document.getElementById("workout_form");
+
+        workoutForm.addEventListener('click', async function (){
+            var exName = document.getElementById('ExerciseName').value;
+            var sets = document.getElementById('NumSets').value;
+            var reps = document.getElementById('NumReps').value;
+            var weight = document.getElementById('WeightUsed').value;
+
+
+            var data = {
+                "ExerciseName": exName,
+                "Sets": sets,
+                "Reps": reps,
+                "Weight": weight
+            };
+            console.log(data)
+
+            var exercise = await fetch('http://localhost:5001/gymflow-47c9b/us-central1/api/fitness-form', {
+                method: 'POST',
+                headers: { 'Content-Type' :'application/json'},
+                body: JSON.stringify(data)
+            }).then(console.log(exercise));
+
+            console.log("Button Clicked");}
+
+        );
         //const media = document.querySelector('.media-acc');
+
 
 
         const setupUI = user => {
             if (user) {
-
 
                 let labelsArr = [];
                 var weightArr = [];
@@ -265,11 +257,11 @@ auth.onAuthStateChanged(user => {
                             time.push(a)
 
                             b = doc.data().weight;
-                          
+
                             benchw.push(b)
 
                         })
-                        
+
                         for (let i = 0; i < time.length - 1; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
@@ -309,11 +301,11 @@ auth.onAuthStateChanged(user => {
                                 }
                             }
                         }
-                        
+
                     })
 
                 }
-             
+
                 var squatw = [];
                 var finalsquat = [];
                 async function getSquatData() {
@@ -496,7 +488,7 @@ auth.onAuthStateChanged(user => {
                     });
                 }
                 //--------------------------------- Pie Chart Data
-            
+
 
                 async function doughnutChart() {
                     //await getProteinData();
@@ -542,7 +534,24 @@ auth.onAuthStateChanged(user => {
                     item.style.display = 'block'
                 })
             }
-        }; 
+        };
+
+//listen for auth
+auth.onAuthStateChanged(user => {
+            //if user is logged in then show data & if not then don't show anything
+            if (user) {
+                console.log(user);
+
+                setupUI(user) //we need to pass the user into the setupUI
+                //to allow for the UI to appwar based on when the user is logged in or not
+
+            } else {
+                exercises([]);
+
+
+           }
+
+        });
 
 </script>
 </body>

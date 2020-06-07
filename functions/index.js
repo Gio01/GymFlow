@@ -3,7 +3,11 @@ const admin = require("firebase-admin");
 const fetch = require("node-fetch");
 const rest = require('restler');
 const crypto = require('crypto');
+const cors = require('cors');
 
+const corsOptions = {
+  origin: ['http://localhost:5000']
+}
 
 
 // Initialize
@@ -17,7 +21,7 @@ const path = require("path");
 
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname + "public")));
-
+app.use(cors(corsOptions));
 
 app.set("views", "/Users/giovanniordonez/Desktop/GymFlow1/public");
 //app.set("views", "./public");
@@ -58,7 +62,7 @@ app.get("/contact", (req, res) => {
 
 
 app.post("/fitness-form", (req, res) => {
-
+  console.log(req.body)
     const newWorkout = {
         createdAt: admin.firestore.Timestamp.fromDate(new Date()),
         exercise: req.body.ExerciseName,
