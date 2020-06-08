@@ -193,14 +193,17 @@ auth.onAuthStateChanged(user => {
             var reps = document.getElementById('NumReps').value;
             var weight = document.getElementById('WeightUsed').value;
             var user = firebase.auth().currentUser;
+            console.log(user)
             var email;
             if(user){
                 email = user.email;
+                console.log(email)
             }else{
                 console.log('No currently logged in user')
             }
 
             var data = {
+                "Email": email,
                 "ExerciseName": exName,
                 "Sets": sets,
                 "Reps": reps,
@@ -235,7 +238,7 @@ auth.onAuthStateChanged(user => {
 
                 async function getData() {
                     await db.collection('users').doc(user.uid).collection('exercises').
-                        .get().then(data => {
+                        get().then(data => {
                             data.forEach(doc => {
                                 console.log(doc.data())
                                 var exercise = doc.data().exercise;
@@ -247,9 +250,9 @@ auth.onAuthStateChanged(user => {
                                 var date = doc.data().createdAt;
                                 var d = date.toDate();
 
+                                //getMonth() begins at 0
+                                a = (d.getMonth() + 1)+ '/' + d.getDate();
 
-                                a = (d.getMonth() )+ '/' + d.getDate();
-                                console.log(a)
                                 if (timeArr.length < 32) {
                                     if (timeArr.includes(a) == false) {
                                         timeArr.push(a);
@@ -277,13 +280,13 @@ auth.onAuthStateChanged(user => {
                         var benchtime = [];
 
                         data.forEach(doc => {
-                           // console.log(doc.data())
-                            var date = doc.data().createdAt;
-                           // console.log(date)
-                            var d = date.toDate();
-                           // console.log(d)
-                            a = d.getMonth() + '/' + d.getDate();
 
+                            var date = doc.data().createdAt;
+
+                            var d = date.toDate();
+
+                            a = (d.getMonth() + 1) + '/' + d.getDate();
+                            console.log(a)
                             time.push(a)
 
                             b = doc.data().weight;
@@ -291,10 +294,11 @@ auth.onAuthStateChanged(user => {
                             benchw.push(b)
 
                         })
-
-                        for (let i = 0; i < time.length - 1; i++) {
+                        console.log(time)
+                        for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
+
                                 for (let j = i; j < timeArr.length; j++) {
                                     if (j <= timeArr.length) {
                                         if (timeArr[j] != t) {
@@ -335,6 +339,8 @@ auth.onAuthStateChanged(user => {
                     })
 
                 }
+                console.log(benchw)
+                console.log(finalbench)
 
                 var squatw = [];
                 var finalsquat = [];
@@ -349,16 +355,16 @@ auth.onAuthStateChanged(user => {
                             var date = doc.data().createdAt;
                             var d = date.toDate();
 
-                            a = d.getMonth() + '/' + d.getDate();
+                            a = (d.getMonth() + 1) + '/' + d.getDate();
 
                             time.push(a);
                             var b = doc.data().weight;
                             squatw.push(b);
 
                         })
+                        console.log(time)
 
-
-                        for (let i = 0; i < time.length - 1; i++) {
+                        for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
                                 for (let j = i; j < timeArr.length; j++) {

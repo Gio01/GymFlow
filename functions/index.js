@@ -62,7 +62,7 @@ app.get("/contact", (req, res) => {
 app.post("/fitness-form", async (req, res) => {
 
   var user;
-  await admin.auth().getUserByEmail(req.body.User).
+  await admin.auth().getUserByEmail(req.body.Email).
   then((userRecord) => {
     user = userRecord.uid;
   }).catch(err => {
