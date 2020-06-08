@@ -60,6 +60,7 @@ app.get("/contact", (req, res) => {
 
 
 app.post("/fitness-form", async (req, res) => {
+
   var user;
   await admin.auth().getUserByEmail(req.body.User).
   then((userRecord) => {
@@ -69,16 +70,11 @@ app.post("/fitness-form", async (req, res) => {
   });
 
 db.collection('users').doc(`${user}`).collection('exercises').add({
-      User: {
-        email: req.body.User,
-      },
-      Workout: {
         createdAt: admin.firestore.Timestamp.now(),
         exercise: req.body.ExerciseName,
         sets: Number(req.body.Sets),
         reps: Number(req.body.Reps),
         weight: Number(req.body.Weight)
-      }
     }).then(doc => {
     console.log(doc.id);
   }).catch((err) => {

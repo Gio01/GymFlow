@@ -138,14 +138,14 @@
 	    <script>
  // Your web app's Firebase configurationvar
 var firebaseConfig = {
-  "apiKey": "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
-  "authDomain": "gymflow-47c9b.firebaseapp.com",
-  "databaseURL": "https://gymflow-47c9b.firebaseio.com",
-  "projectId": "gymflow-47c9b",
-  "storageBucket": "gymflow-47c9b.appspot.com",
-  "messagingSenderId": "728577478893",
-  "appId": "1:728577478893:web:d86266b8cfa6b13f99bce4",
-  "measurementId": "G-M97878F1TC"
+  apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+    authDomain: "gymflow-47c9b.firebaseapp.com",
+    databaseURL: "https://gymflow-47c9b.firebaseio.com",
+    projectId: "gymflow-47c9b",
+    storageBucket: "gymflow-47c9b.appspot.com",
+    messagingSenderId: "728577478893",
+    appId: "1:728577478893:web:d86266b8cfa6b13f99bce4",
+    measurementId: "G-M97878F1TC"
 };;
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -153,6 +153,24 @@ firebase.initializeApp(firebaseConfig);
 // Make auth and firestore references!
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+//listen for auth
+auth.onAuthStateChanged(user => {
+            //if user is logged in then show data & if not then don't show anything
+            if (user) {
+                console.log(user);
+
+                setupUI(user) //we need to pass the user into the setupUI
+                //to allow for the UI to appwar based on when the user is logged in or not
+
+            } else {
+                exercises([]);
+
+
+           }
+
+        });
+
 
         //logout method
         const logout = document.querySelector("#logout");
@@ -183,7 +201,6 @@ const db = firebase.firestore();
             }
 
             var data = {
-                "User": email,
                 "ExerciseName": exName,
                 "Sets": sets,
                 "Reps": reps,
@@ -217,10 +234,10 @@ const db = firebase.firestore();
                //doughnutChart();
 
                 async function getData() {
-                    await db.collection('users').doc(user.uid).collection('exercises').orderBy('createdAt')
+                    await db.collection('users').doc(user.uid).collection('exercises').
                         .get().then(data => {
                             data.forEach(doc => {
-
+                                console.log(doc.data())
                                 var exercise = doc.data().exercise;
                                 labelsArr.push(exercise);
 
@@ -231,8 +248,8 @@ const db = firebase.firestore();
                                 var d = date.toDate();
 
 
-                                a = (d.getMonth() + 1 )+ '/' + d.getDate();
-
+                                a = (d.getMonth() )+ '/' + d.getDate();
+                                console.log(a)
                                 if (timeArr.length < 32) {
                                     if (timeArr.includes(a) == false) {
                                         timeArr.push(a);
@@ -260,8 +277,11 @@ const db = firebase.firestore();
                         var benchtime = [];
 
                         data.forEach(doc => {
+                           // console.log(doc.data())
                             var date = doc.data().createdAt;
+                           // console.log(date)
                             var d = date.toDate();
+                           // console.log(d)
                             a = d.getMonth() + '/' + d.getDate();
 
                             time.push(a)
@@ -542,25 +562,6 @@ const db = firebase.firestore();
                 })
             }
         };
-
-
-
-//listen for auth
-auth.onAuthStateChanged(user => {
-            //if user is logged in then show data & if not then don't show anything
-            if (user) {
-                console.log(user);
-
-                setupUI(user) //we need to pass the user into the setupUI
-                //to allow for the UI to appwar based on when the user is logged in or not
-
-            } else {
-                exercises([]);
-
-
-           }
-
-        });
 
 </script>
 </body>

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GymFlow</title>
-  <link rel="stylesheet" id="style" href="./styles/index.css"> 
+  <link rel="stylesheet" id="style" href="./styles/index.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -21,17 +21,17 @@
         <div class="three"></div>
       </div>
       <div class="top_menu">
-       
+
         <div class="logo">
-       
+
           <img src="./img/GymFlow.jpeg" style="height: 50%;
           width: 55%;
           " alt="Gymflow">
           <!--<p>GymFlow</p>-->
           <!--<img src="/img/GymFlow.jpg" alt=" GymFlow">-->
-       
+
         </div>
-     
+
         <ul>
           <li>
            <!-- <a href="/gymflow-47c9b/us-central1/api/login" display="none">
@@ -128,7 +128,7 @@
 	<center>
 		<img src="./img/foodsearch.png" alt="Food-Search" id="fitness_right"/>
 	</center>
-		
+
 	</div>
 
       <div class="item">
@@ -138,23 +138,23 @@
           Once the user's data has been
           stored into the database, the user will be able to see their data in
           a graphical representation to provide a visual of their progress over time.
-	  The reasoning is to not only provide a better user experience, but to also 
-	  motivate the user by showing their gradual progress as it can be hard 
+	  The reasoning is to not only provide a better user experience, but to also
+	  motivate the user by showing their gradual progress as it can be hard
 	  to notice change. By providing a numerical and graphical approach,
-	  users can get motiviated enough to  conitnue once they begin. This 
-	  is crutial as the hardest portion of a fitness journey is starting. 
+	  users can get motiviated enough to  conitnue once they begin. This
+	  is crutial as the hardest portion of a fitness journey is starting.
 	  However without any grand visual in their appearance, this process
 	  can become demotivating and can result in users giving up. Hence the
-	  goal of GymFlow is to provide that extra push to motivate users to 
+	  goal of GymFlow is to provide that extra push to motivate users to
 	  continue and to not give up.
 
         </p>
 	<br>
 	<h4>
 		Some examples of what the user would see are:
-        </h4>	
+        </h4>
 	<br>
-	<div>      
+	<div>
 	<center>
 	<canvas id="myChart"> </canvas>
 	<br>
@@ -165,7 +165,7 @@
       <div class="item">
         <h1>User Reviews</h1>
         <br>
-        <p>"I like the color scheme and the organization of the website. It 
+        <p>"I like the color scheme and the organization of the website. It
           looks professional and aesthetically pleasing." -- Sergio 2020</p>
           <br>
           <p>"I love the fact that this service allows me to track my progress through graphs/charts and
@@ -176,7 +176,7 @@
           </p>
           <br>
           <p>
-            
+
           </p>
       </div>
 
@@ -189,7 +189,7 @@
 
  <script src="./scripts/charts.js"> </script>
  <script src="./scripts/navscripts.js"> </script>
- 
+
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
@@ -200,7 +200,16 @@
 
   <script>
     // Your web app's Firebase configuration
-	  var firebaseConfig = "./scripts/firebase_config.json";
+	  var firebaseConfig = {
+      apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+    authDomain: "gymflow-47c9b.firebaseapp.com",
+    databaseURL: "https://gymflow-47c9b.firebaseio.com",
+    projectId: "gymflow-47c9b",
+    storageBucket: "gymflow-47c9b.appspot.com",
+    messagingSenderId: "728577478893",
+    appId: "1:728577478893:web:d86266b8cfa6b13f99bce4",
+    measurementId: "G-M97878F1TC"
+    };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     // firebase.analytics();
