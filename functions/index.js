@@ -9,7 +9,6 @@ const corsOptions = {
   origin: ['http://localhost:5000']
 }
 
-
 // Initialize
 var serviceAccount = require("./adminsdk");
 
@@ -26,6 +25,8 @@ app.use(cors(corsOptions));
 app.set("views", "/Users/giovanniordonez/Desktop/GymFlow1/public");
 //app.set("views", "./public");
 app.set("view engine", "ejs");
+
+const db = admin.firestore();
 
 // GET my workouts
 app.get("/myWorkouts", (req, res) => {
@@ -49,10 +50,7 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-
-
 app.get("/fitness", (req, res) => {
-
     res.render("fitness");
 });
 
@@ -61,28 +59,33 @@ app.get("/contact", (req, res) => {
 });
 
 
-app.post("/fitness-form", (req, res) => {
-  console.log(req.body)
-    const newWorkout = {
-        createdAt: admin.firestore.Timestamp.fromDate(new Date()),
+app.post("/fitness-form", async (req, res) => {
+  var user;
+  await admin.auth().getUserByEmail(req.body.User).
+  then((userRecord) => {
+    user = userRecord.uid;
+  }).catch(err => {
+    console.log(err)
+  });
+
+db.collection('users').doc(`${user}`).collection('exercises').add({
+      User: {
+        email: req.body.User,
+      },
+      Workout: {
+        createdAt: admin.firestore.Timestamp.now(),
         exercise: req.body.ExerciseName,
-        sets: req.body.NumSets,
-        reps: req.body.NumReps,
-        weight: req.body.WeightUsed
-    };
-
-    admin.firestore().collection("workouts").add(newWorkout).then(doc => {
-        res.json({
-            message: `document ${doc.id} created successfully`
-        });
-        return doc;
-    }).catch(err => {
-        res.status(500).json({ error: "something went wrong!" });
-        console.error(err);
-    });
-    res.render("fitness");
+        sets: Number(req.body.Sets),
+        reps: Number(req.body.Reps),
+        weight: Number(req.body.Weight)
+      }
+    }).then(doc => {
+    console.log(doc.id);
+  }).catch((err) => {
+    console.log(err)
+  });
+  res.status(200).send({message: 'POST Successful'})
 });
-
 
 
 app.get("/workouts/:exercise", (req, res) => {

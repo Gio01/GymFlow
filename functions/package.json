@@ -15,7 +15,7 @@
     "circular-json": "^0.5.9",
     "ejs": "^3.0.2",
     "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0",
+    "firebase-functions": "^3.6.2",
     "restler": "^3.4.0",
     "util": "^0.12.2"
   },
