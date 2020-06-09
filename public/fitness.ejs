@@ -42,7 +42,7 @@
 			style="height: 50%; width:55%;">
 		</div>
                 <ul>
-                    <li><a href="/gymflow-47c9b/us-central1/api/login">
+                    <li><a href="/login">
                             <i class="fas fa-user"></i>
                         </a></li>
                     <li style=" padding-bottom: 0;">
@@ -57,19 +57,18 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    <a href="/gymflow-47c9b/us-central1/api/">
+                    <a href="/">
                         <span class="icon"><i class="fas fa-home"></i></span>
                         <span class="title">Home</span>
                     </a></li>
                 <li>
-                    <a href="/gymflow-47c9b/us-central1/api/fitness">
+                    <a href="/fitness">
                         <span class="icon"><i class="fas fa-dumbbell"></i></span>
                         <span class="title">Fitness</span>
                     </a>
                 </li>
                 <li class="logged-in">
-                    <!--<a href="/api/contact">-->
-                    <a href="/gymflow-47c9b/us-central1/api/profile">
+                    <a href="/profile">
                         <span class="icon"><i class="fas fa-id-card"></i></span>
                         <span class="title">Profile</span>
                     </a>
@@ -86,6 +85,7 @@
 	<div class="item" >
                 <h2> Monthly Progress:</h2>
                 <br>
+                <canvas id="BarChart" width="100" height="50"> </canvas>
                 <canvas id="LineChart" width="100" height="50"> </canvas>
 
                 <h2>Enter New Workout:</h2>
@@ -114,8 +114,10 @@
 
 	<div class="item">
         <h2>Montly Macros:</h2>
-		<canvas id="MacrosChart" width="100" height="50"> </canvas>
-	</div>
+        <center>
+		  <canvas id="MacrosChart" width="100" height="50"> </canvas>
+	   </center>
+    </div>
 
        <div class='item' id='my_container'>
 
@@ -233,14 +235,15 @@ auth.onAuthStateChanged(user => {
                 var a = [];
                 var work = [];
 
-               chartIt();
+                chartIt();
+                lineGraph();
                //doughnutChart();
 
                 async function getData() {
                     await db.collection('users').doc(user.uid).collection('exercises').
                         get().then(data => {
                             data.forEach(doc => {
-                                console.log(doc.data())
+
                                 var exercise = doc.data().exercise;
                                 labelsArr.push(exercise);
 
@@ -252,10 +255,11 @@ auth.onAuthStateChanged(user => {
 
                                 //getMonth() begins at 0
                                 a = (d.getMonth() + 1)+ '/' + d.getDate();
-
+                                console.log(a)
                                 if (timeArr.length < 32) {
                                     if (timeArr.includes(a) == false) {
                                         timeArr.push(a);
+
                                     }
                                 } else {
                                     if (timeArr.includes(a) == false) {
@@ -267,7 +271,7 @@ auth.onAuthStateChanged(user => {
 
                         });
                 }
-
+                console.log(timeArr)
                 //NOTE: In order to get the documents in order by the createdAt I had to create an index in firebase so that it woill
                 //get stored into firebase and ordered there in createdAt order. Go to databases in firebase and then go to index to see what the index is that I made to get this to work!
                 var benchw = [];
@@ -286,7 +290,7 @@ auth.onAuthStateChanged(user => {
                             var d = date.toDate();
 
                             a = (d.getMonth() + 1) + '/' + d.getDate();
-                            console.log(a)
+
                             time.push(a)
 
                             b = doc.data().weight;
@@ -294,7 +298,7 @@ auth.onAuthStateChanged(user => {
                             benchw.push(b)
 
                         })
-                        console.log(time)
+
                         for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
@@ -362,7 +366,7 @@ auth.onAuthStateChanged(user => {
                             squatw.push(b);
 
                         })
-                        console.log(time)
+
 
                         for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
@@ -474,8 +478,9 @@ auth.onAuthStateChanged(user => {
                 }
 
 
-                var ctx = document.getElementById('LineChart').getContext('2d');
+                var ctx = document.getElementById('BarChart').getContext('2d');
                 var macros = document.getElementById('MacrosChart').getContext('2d');
+                var line = document.getElementById('LineChart')
 
                 async function chartIt() {
 
@@ -490,21 +495,21 @@ auth.onAuthStateChanged(user => {
                             labels: timeArr,
                             datasets: [{
                                     fill: false,
-                                    label: ['squat'],
+                                    label: ['Squat'],
                                     backgroundColor: 'rgb(0, 32, 255)',
                                     borderColor: 'rgb(0, 32, 255)',
                                     data: finalsquat
                                 },
                                 {
                                     fill: false,
-                                    label: ['bench'],
+                                    label: ['Bench'],
                                     backgroundColor: 'rgb(20, 32, 25)',
                                     borderColor: 'rgb(20, 32, 25)',
                                     data: finalbench
                                 },
                                 {
                                     fill: false,
-                                    label: ['pullups'],
+                                    label: ['Pullups'],
                                     backgroundColor: 'rgb(20, 32, 125)',
                                     borderColor: 'rgb(20, 32, 125)',
                                     data: finalpullup
@@ -548,6 +553,49 @@ auth.onAuthStateChanged(user => {
                // }
 
 
+               async function lineGraph() {
+                    await getData();
+                    await getBenchData();
+                    await getPullUpData();
+                    await getSquatData();
+
+                new Chart(line, {
+                    type: 'line',
+                    data:{
+                        labels: timeArr,
+                        datasets: [{
+                            data: finalsquat,
+                            label: ['Squat'],
+                            backgroundColor: ['#572991','#572991','#572991'],
+                            fill: false,
+                            borderColor: '#572991'
+                        },
+                        {
+                            data: finalbench,
+                            label:['Bench Press'],
+                            backgroundColor: ['#001399','#001399','#001399'],
+                            fill: false,
+                            borderColor: '#001399'
+                        },
+                        {
+                            data: finalpullup,
+                            label:['Pullup'],
+                            backgroundColor: ['#C40233','#C40233','#C40233'],
+                            fill: false,
+                            borderColor: '#C40233'
+                        }]
+                    },
+                options:{
+                    scales: {
+                        yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+            }]
+        }
+                }
+               })
+           }
 
                 //toggle UI elements
                 loggedInLinks.forEach(item => {

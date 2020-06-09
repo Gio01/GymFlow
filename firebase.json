@@ -19,7 +19,10 @@
   },{
        "source" : "/register",
        "destination" : "/register.ejs"
-}],
+  },{
+      "source" : "/program",
+      "destination" : "/program.ejs"
+  }],
     "ignore": [
       "firebase.json",
       "**/.*",
