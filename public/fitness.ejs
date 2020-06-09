@@ -73,6 +73,12 @@
                         <span class="title">Profile</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/program" display="none">
+                        <span class="icon"><i class="fa fa-map-signs" aria-hidden="true"></i></span>
+                        <span class="title">Program</span>
+                    </a>
+                </li>
                 <li><a href="/contact">
                         <span class="icon"><i class="fas fa-address-book"></i></span>
                         <span class="title">Contact</span>
@@ -255,9 +261,10 @@ auth.onAuthStateChanged(user => {
 
                                 //getMonth() begins at 0
                                 a = (d.getMonth() + 1)+ '/' + d.getDate();
-                                console.log(a)
+
                                 if (timeArr.length < 32) {
                                     if (timeArr.includes(a) == false) {
+                                        //unshift() adds elements to the front of the array
                                         timeArr.push(a);
 
                                     }
@@ -271,7 +278,7 @@ auth.onAuthStateChanged(user => {
 
                         });
                 }
-                console.log(timeArr)
+
                 //NOTE: In order to get the documents in order by the createdAt I had to create an index in firebase so that it woill
                 //get stored into firebase and ordered there in createdAt order. Go to databases in firebase and then go to index to see what the index is that I made to get this to work!
                 var benchw = [];
@@ -282,9 +289,10 @@ auth.onAuthStateChanged(user => {
                         var time = [];
                         var b;
                         var benchtime = [];
-
+                        var i = 0;
                         data.forEach(doc => {
-
+                            i++;
+                            console.log(i)
                             var date = doc.data().createdAt;
 
                             var d = date.toDate();
@@ -295,10 +303,12 @@ auth.onAuthStateChanged(user => {
 
                             b = doc.data().weight;
 
-                            benchw.push(b)
+                            benchw.push(doc.data().weight)
+
 
                         })
 
+console.log(b)
                         for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
@@ -344,7 +354,7 @@ auth.onAuthStateChanged(user => {
 
                 }
                 console.log(benchw)
-                console.log(finalbench)
+                //console.log(finalbench)
 
                 var squatw = [];
                 var finalsquat = [];
