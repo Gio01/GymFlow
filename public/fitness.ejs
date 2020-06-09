@@ -265,7 +265,7 @@ auth.onAuthStateChanged(user => {
                                 if (timeArr.length < 32) {
                                     if (timeArr.includes(a) == false) {
                                         //unshift() adds elements to the front of the array
-                                        timeArr.push(a);
+                                        timeArr.unshift(a);
 
                                     }
                                 } else {
@@ -289,10 +289,8 @@ auth.onAuthStateChanged(user => {
                         var time = [];
                         var b;
                         var benchtime = [];
-                        var i = 0;
+
                         data.forEach(doc => {
-                            i++;
-                            console.log(i)
                             var date = doc.data().createdAt;
 
                             var d = date.toDate();
@@ -301,14 +299,11 @@ auth.onAuthStateChanged(user => {
 
                             time.push(a)
 
-                            b = doc.data().weight;
-
-                            benchw.push(doc.data().weight)
-
-
+                            if(!benchw.includes(doc.data().weight)){
+                                benchw.unshift(doc.data().weight)
+                            }
                         })
 
-console.log(b)
                         for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
                                 let t = time[i];
@@ -353,7 +348,6 @@ console.log(b)
                     })
 
                 }
-                console.log(benchw)
                 //console.log(finalbench)
 
                 var squatw = [];
@@ -373,10 +367,13 @@ console.log(b)
 
                             time.push(a);
                             var b = doc.data().weight;
-                            squatw.push(b);
+                            if(!squatw.includes(b)){
+                                squatw.unshift(b);
+                            }
 
                         })
-
+                        console.log(squatw)
+                        console.log(time)
 
                         for (let i = 0; i < time.length; i++) {
                             if (timeArr[i] != time[i]) {
@@ -416,8 +413,11 @@ console.log(b)
                                 }
                             }
                         }
+                            console.log(squattime)
+                console.log(finalsquat)
                     })
                 }
+
 
                 var pullupw = [];
                 var finalpullup = [];

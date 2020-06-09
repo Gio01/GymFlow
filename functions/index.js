@@ -113,10 +113,6 @@ app.get("/login", (req, res) => {
 
 
 
-app.get("/register", (req, res) => {
-    res.render("register");
-});
-
 //-----------------------------------Fat Secret Nutrional Data Get from API
 const url = "https://platform.fatsecret.com/rest/server.api";
 const uuid = require('uuid');
@@ -130,6 +126,19 @@ const date = new Date();
 // Note that the keys are in alphabetical order
 //to create a user we need to pass the user_id to the method profile.create
 //profile.request_script_session_key
+
+var registerObj ={
+  method: 'profile.create',
+  oauth_consumer_key: apiKey,
+  oauth_nonce: Math.random().toString(36).replace(/[^a-z]/, '').substr(2),
+  oauth_signature_method: 'HMAC-SHA1',
+  oauth_timestamp: Math.floor(date.getTime() / 1000),
+  oauth_version: '1.0',
+  search_expression: '', // test query
+  user_id: '' // here I need to pass the same uid from when the user registers
+}
+//Ex: we would pass tom@gmail.com == 1M53F8I9tASvYL2pibYyb2l0JKY2 for tom.
+
 var reqObj = {
   method: 'profile.request_script_session_key',
   oauth_consumer_key: apiKey,
@@ -171,6 +180,21 @@ const parseString = require("xml2js").parseString;
 var util = require('util');
 
 const json = require('circular-json');
+
+
+//create an object to pass to FatSecret at the moment that a user
+//registers. That way it is done all at once and there is no
+//second process needed to create the user. Then I can call that
+//user via their uid when the user loads the fitness page.
+app.get("/register", (req, res) => {
+    res.render("register");
+});
+
+app.post("/register-fatsecret", (req, res) => {
+
+  console.log(req.body);
+
+})
 
 app.get("/profile", async (req, res) => {
     //console.log(json.stringify(session_key));

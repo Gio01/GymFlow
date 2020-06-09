@@ -127,7 +127,14 @@
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
-
+            apiKey: "AIzaSyCVqKw0SWmEoRtIiJaCM-hRJUxRA3Mbc1g",
+    authDomain: "gymflow-47c9b.firebaseapp.com",
+    databaseURL: "https://gymflow-47c9b.firebaseio.com",
+    projectId: "gymflow-47c9b",
+    storageBucket: "gymflow-47c9b.appspot.com",
+    messagingSenderId: "728577478893",
+    appId: "1:728577478893:web:d86266b8cfa6b13f99bce4",
+    measurementId: "G-M97878F1TC"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -136,6 +143,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        console.log(firebase.auth().currentUser);
         const signupForm = document.querySelector('#signupForm');
         signupForm.addEventListener('submit', (e) => {
             //we want to stop the default submit settings of refreshing the
@@ -156,6 +164,18 @@
                 alert("Successfully Registered")
                 signupForm.reset();
             })
+
+            var user = auth.currentUser;
+            var data = {
+                User: user
+            };
+            console.log(user)
+            fetch("http://localhost:5001/gymflow-47c9b/us-central1/api/register-fatsecret", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(console.log(data))
+
         })
 
         //logout method
