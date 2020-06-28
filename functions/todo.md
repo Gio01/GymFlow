@@ -24,11 +24,13 @@ Program Tab:
 
 PROFILE PAGE:
 * [ ] Add more user data to enhance the UX
-* [ ] Longer Bio Section 
+* [X] ~~*Create a userInfo doc in their profile, in firebase*~~ [2020-06-28] 
 > I need a way to store user data via their uid. (REST API)
     Name/Username
     Change their Bio
     Profile Picture 
+* [ ] Create a pop up window to endit user info. Create a little pencil icon for editing. 
+
 
 CONTACT PAGE:
 * [ ] Add more info about me to showcase my purpose in creating this app via my personal experiences
@@ -51,7 +53,7 @@ LOGIN/REGISTER PAGE:
 * [ ] When you log in, you should get the message log in successful and the get redirected to the profile page
 
 HOME PAGE:
-* [ ] Delete the logged in as <username> at the bottom of the page
+* [X] ~~*Delete the logged in as <username> at the bottom of the page*~~ [2020-06-28]
 
 
 > Future Ehancements
@@ -60,4 +62,5 @@ HOME PAGE:
 * [ ] Spread the beta version of this app
 > Get as many people to use this to get an idea about what features to add or things to change
 * [ ] Add this to my blog page (Once I actually make the vlog page)
+* [ ] Create a social forum so that users can communicate with other users
 

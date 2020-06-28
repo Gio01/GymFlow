@@ -85,7 +85,6 @@
             <div class="item">
                 <h1>Profile</h1>
                 <br />
-                <div class="profile-data"></div>
             </div>
 
             <div class="item">
@@ -97,17 +96,10 @@
                 <br>
 
             </div>
-            <!--
-            <div class="item">
-                <h1>Social Media</h1>
-                <br />
-                <p class="media-acc">
-                    Media account links.
-                </p>
-                <br>
 
+            <div class="item"> 
+                <div class="profile-data"></div>
             </div>
-        -->
 
 </div>
 
@@ -178,21 +170,17 @@
         const profileData = document.querySelector('.profile-data');
         const bio = document.querySelector('.bio');
         const workouts = document.querySelector('#workouts');
-        //const media = document.querySelector('.media-acc');
 
 
         const setupUI = user => {
             if (user) {
                 // user account info
-                const html = `<div> Logged in as ${user.email}</div>`;
-                profileData.innerHTML = html; // we are assigng the value of profile to be the html variable
-                //console.log(user.uid);
-                db.collection('users').doc(user.uid).get().then(doc => {
-                    const html = `<div> Logged in as ${user.email}</div>`;
+                db.collection('users').doc(user.uid).collection('userInfo').doc('info').get().then(doc => {
+                    var html = `<div> Logged in as ${doc.data().userName}</div>`;
                     profileData.innerHTML =
                         html; // we are assigng the value of profile to be the html variable
                     if (doc.data().bio) {
-                        const ubio = `<div> ${doc.data().bio}</div>`
+                        var ubio = `<div> ${doc.data().bio}</div>`
                         bio.innerHTML = ubio;
                     } else {
                         console.log('no user bio')

@@ -221,7 +221,12 @@ app.get("/fatstorage", async (req, res) => {
     console.log(json);
 })
 
-// Login users with their respective login info
+//------------------------------------------->
+//RESTful API
+/**
+ * Changing user data 
+ */
+
 
 // synchroizing fatsecret's profile authentication with my users info for automcatic profile sync!
 exports.api = functions.https.onRequest(app);
