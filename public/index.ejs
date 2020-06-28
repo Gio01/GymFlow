@@ -71,6 +71,12 @@
           </a>
         </li>
         <li>
+          <a href="/program" display="none" class="logged-in">
+              <span class="icon"><i class="fa fa-map-signs" aria-hidden="true"></i></span>
+              <span class="title">Program</span>
+          </a>
+      </li>
+        <li>
           <a href="/contact" display="none">
             <span class="icon"><i class="fas fa-address-book"></i></span>
             <span class="title">Contact</span>
@@ -176,10 +182,6 @@
 
           </p>
       </div>
-
-      <div class="item">
-        <div class="profile-data"></div>
-      </div>
     </div>
   </div>
   </div>
@@ -238,12 +240,8 @@
     })
     const loggedOutLinks = document.querySelectorAll('.logged-out');
     const loggedInLinks = document.querySelectorAll('.logged-in');
-    const profileData = document.querySelector('.profile-data')
     const setupUI = user => {
       if (user) {
-        const html = `<div> Logged in as ${user.email}</div>`;
-        profileData.innerHTML = html;  // we are assigng the value of profile to be the html variable
-        console.log(html);
         //toggle UI elements
         loggedInLinks.forEach(item => {
           item.style.display = 'block'
