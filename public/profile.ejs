@@ -70,31 +70,115 @@
                 </li>
                 <li>
                     <a href="/contact" display="none">
-                        <span class="icon"><i class="fas fa-address-book"></i></span>
+                        <span class="icon"><i class="fas fa-address-book" style="float:right;"></i></span>
                         <span class="title">Contact</span>
                     </a>
+                   
                 </li>
             </ul>
         </div>
         <!--Main Content------------------>
 
-        <div class="main_container" style="margin-top: 25px;">
+        <div class="main_container" style="margin-top: 20px;">
 
             <br>
             <br>
             <div class="item">
                 <h1>Profile</h1>
-                <br />
+           
+                <br>
+                <div class="user-name"></div>
+                <br>
+                <div class="image-link"></div>
+                <br>
+                  <!-- Trigger/Open The Modal -->
+                  <i class="fas fa-edit" id="myBtn"></i>
+
+                  <!-- The Modal -->
+                  <div id="myModal" class="modal">
+ 
+                     <!-- Modal content -->
+                 <div class="modal-content">
+                     <span class="close">&times;</span>
+                     <h3>Change Your UserName:</h3>
+                     <br>
+                     <label for="update-picture">Profile Picture (Enter Image Link):</label><br>
+                     <input id="update-picture" type="text" style="height: 40%; width: 40%;">
+                     <br>
+                     <label for="update-userName">UserName:</label><br>
+                     <input id="update-userName" type="text" style="height: 40%; width: 40%;">
+                     <br>
+                     <br>
+                     <button id="submit-userName">Submit</button>
+                 </div>
+ 
+                 </div>
             </div>
 
             <div class="item">
                 <h1>Bio</h1>
                 <br />
-                <div class="bio">
-                    Bio stuff.
-                </div>
+                <div class="bio"></div>
                 <br>
 
+                 <!-- Trigger/Open The Modal -->
+                <i class="fas fa-edit" id="bio-button"></i>
+
+                 <!-- The Modal -->
+                 <div id="bioModal" class="modal">
+
+                    <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="closeB">&times;</span>
+                    <h3>Change Your Bio:</h3>
+                    <br>
+                    <label for="update-bio">Bio:</label><br>
+                    <input id="update-bio" type="text" style="height: 40%; width: 40%;">
+                    <br>
+                    <br>
+                    <button id="submit-bio">Submit</button>
+                </div>
+
+                </div>
+            </div>
+
+            <div class="item">
+                <h1>Fitness Profile</h1>
+                <br />
+                <div class="fitnessH"></div>
+                <div class="fitnessW"></div>
+                <div class="fitnessG"></div>
+                <br>
+                 <!-- Trigger/Open The Modal -->
+                <i class="fas fa-edit" id="fitness-button"></i>
+
+                 <!-- The Modal -->
+                 <div id="fitnessModal" class="modal">
+
+                    <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="closeF">&times;</span>
+                    <h3>Change Your Fitness Profile:</h3>
+                    <br>
+                    <label>How Tall Are You?</label><br>
+                    <label for="update-heightF">Feet:</label><br>
+                    <input id="update-heightF" style="height: 40%; width: 20%;">
+                    <br>
+                    <label for="update-heightI">Inches:</label><br>
+                    <input id="update-heightI" style="height: 40%; width: 20%;">
+                    <br><br>
+                    <label for="update-weight">Weight in Pounds (lbs):</label><br>
+                    <input id="update-weight" type="text" style="height: 40%; width: 40%;">
+                    <br><br>
+                    <label for="update-goals">Goal You Want To Accomplish:</label><br>
+                    <input id="update-goals" type="text" style="height: 40%; width: 40%;">
+
+                    <br>
+                    <br>
+                    <button id="submit-fitness">Submit</button>
+                </div>
+
+                </div>
             </div>
 
             <div class="item"> 
@@ -102,16 +186,13 @@
             </div>
 
 </div>
-
-
-
-
             <!---Main content ends ------------------>
 
         </div>
 
     </div>
     </div>
+    <script src="./scripts/modal.js"></script>
     <script src="./scripts/navscripts.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
@@ -169,24 +250,69 @@
         const loggedInLinks = document.querySelectorAll('.logged-in');
         const profileData = document.querySelector('.profile-data');
         const bio = document.querySelector('.bio');
+        const uname = document.querySelector('.user-name');
+        const ilink = document.querySelector('.image-link');
+        const fitnessH = document.querySelector('.fitnessH');
+        const fitnessW = document.querySelector('.fitnessW');
+        const fitnessG = document.querySelector('.fitnessG');
         const workouts = document.querySelector('#workouts');
-
+        const submitBio = document.querySelector("#submit-bio");
+        const submitUserName = document.querySelector("#submit-userName");
+        const submitFitness = document.querySelector("#submit-fitness");
 
         const setupUI = user => {
             if (user) {
-                // user account info
-                db.collection('users').doc(user.uid).collection('userInfo').doc('info').get().then(doc => {
-                    var html = `<div> Logged in as ${doc.data().userName}</div>`;
+                // user account info on an update event listener
+                const doc = db.collection('users').doc(user.uid).collection('userInfo').doc('info');
+                const observer = doc.onSnapshot(docSnapshot => {
+                    var html = `<div> Logged in as ${docSnapshot.data().userName}</div>`;
                     profileData.innerHTML =
                         html; // we are assigng the value of profile to be the html variable
-                    if (doc.data().bio) {
-                        var ubio = `<div> ${doc.data().bio}</div>`
+                    if (docSnapshot.data().bio) {
+                        var ubio = `<div> ${docSnapshot.data().bio}</div>`
                         bio.innerHTML = ubio;
                     } else {
                         console.log('no user bio')
                     }
-                });
 
+                    if (docSnapshot.data().userName) {
+                        var uName =  `<div> Username: ${docSnapshot.data().userName}</div>`
+                        uname.innerHTML = uName;
+                    } else {
+                        console.log('no username')
+                    }
+
+                    if (docSnapshot.data().imageLink) {
+                        var link =  `<img src="${docSnapshot.data().imageLink}" alt="image" style="max-height: 10%; max-width:10%;"> </img>`
+                        ilink.innerHTML = link;
+                    } else {
+                        console.log('no username')
+                    }
+
+                    if (docSnapshot.data().Height) {
+                        var height = `<div> Height: ${docSnapshot.data().Height}</div>`
+                        fitnessH.innerHTML = height;
+                    } else {
+                        console.log('No height');
+                    }
+                    
+                    if (docSnapshot.data().Weight) {
+                        var weight = `<div> Weight Lbs: ${docSnapshot.data().Weight}</div>`
+                        fitnessW.innerHTML = weight;
+                    } else {
+                        console.log('No weight');
+                    }
+                    
+                    if (docSnapshot.data().Goals) {
+                        var goals = `<div> Goals: ${docSnapshot.data().Goals}</div>`
+                        fitnessG.innerHTML = goals;
+                    } else {
+                        console.log('No goals');
+                    }
+                }, err => {
+                    console.log(err)
+                })
+              
                 //toggle UI elements
                 loggedInLinks.forEach(item => {
                     item.style.display = 'block'
@@ -194,6 +320,65 @@
                 loggedOutLinks.forEach(item => {
                     item.style.display = 'none'
                 })
+
+                submitBio.addEventListener('click', e => {
+            
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:5001/gymflow-47c9b/us-central1/api/updateUser",
+                        data: {
+                            bio: $("#update-bio").val(),
+                            user: user.email,
+                        },
+                        success: function(result) {
+                            alert("Updating Bio Was Successful")
+                        },
+                        error: function(err) {
+                            alert("Updating Bio Failed")
+                        }
+                    });
+                })
+
+                submitUserName.addEventListener('click', e => {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:5001/gymflow-47c9b/us-central1/api/updateUser",
+                        data: {
+                         userName: $("#update-userName").val(),
+                         image: $("#update-image").val(),
+                            user: user.email,
+                        },
+                        success: function(result) {
+                            alert("Updating Profile Was Successful")
+                        },
+                        error: function(err) {
+                            alert("Updating Prodile Failed")
+                        }
+                    });
+                })
+
+                submitFitness.addEventListener('click', e => {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:5001/gymflow-47c9b/us-central1/api/updateUser",
+                        data: {
+                        Weight: $("#update-weight").val(),
+                        Height: $("#update-heightF").val() + "''" + $("#update-heightI").val(),
+                        Goals: $("#update-goals").val(),
+                            user: user.email,
+                        },
+                        success: function(result) {
+                            alert("Updating Fitness Profile Was Successful")
+                        },
+                        error: function(err) {
+                            alert("Updating Fitness Profile Failed")
+                        }
+                    });
+
+                })
+
+
             } else {
 
                 profileData.innerHTML = '';

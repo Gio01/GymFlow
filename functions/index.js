@@ -4,23 +4,32 @@ const fetch = require("node-fetch");
 const rest = require('restler');
 const crypto = require('crypto');
 const cors = require('cors');
+const express = require("express");
+const app = express();
+const path = require("path");
 
 const corsOptions = {
-  origin: ['http://localhost:5000']
+  origin: [
+  'http://localhost',
+  'http://localhost:8080',
+  'http://localhost:8100',
+  'http://localhost:3000',
+  'http://localhost:5000'],
+  allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
+  credentials: true,
+  enablePreflight: true
 }
 
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions))
 // Initialize
 var serviceAccount = require("./adminsdk");
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: "https://gymflow-47c9b.firebaseio.com" });
 
-const express = require("express");
-const app = express();
-const path = require("path");
 
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname + "public")));
-app.use(cors(corsOptions));
 
 app.set("views", "/Users/giovanniordonez/Desktop/GymFlow1/public");
 //app.set("views", "./public");
@@ -226,7 +235,142 @@ app.get("/fatstorage", async (req, res) => {
 /**
  * Changing user data 
  */
+app.post('/updateUser', async (req, res) => {
 
+  var user;
+  await admin.auth().getUserByEmail(req.body.user).
+  then((userRecord) => {
+    user = userRecord.uid;
+  }).catch(err => {
+    console.log(err)
+  });
+
+//NOTE: We cannot have two queries running at the same time if only one update is being made
+
+if( req.body.bio != null){
+  db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+       bio: req.body.bio
+    }).then(doc => {
+    console.log(doc.id);
+  }).catch((err) => {
+    console.log(err)
+  });
+} if ((req.body.userName != null && req.body.image == null)){
+    db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+        userName: req.body.userName
+    }).then(doc => {
+    console.log(doc.id);
+    }).catch((err) => {
+    console.log(err)
+    });
+} else if ((req.body.userName == null && req.body.image != null))  {
+      db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+        imageLink: req.body.image
+    }).then(doc => {
+    console.log(doc.id);
+    }).catch((err) => {
+    console.log(err)
+    });
+} else if ((req.body.userName != null && req.body.image != null)){
+      db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+        imageLink: req.body.image,
+        userName: req.body.userName
+    }).then(doc => {
+    console.log(doc.id);
+    }).catch((err) => {
+    console.log(err)
+    });
+} else if ((req.body.userName == null && req.body.image == null)){
+    console.log("Nothing was inputted ")
+}
+
+else {
+  var w = req.body.Weight;
+  var h = req.body.Height;
+  var g = req.body.Goals;
+
+    if(w != null && h != null && g != null) {
+          db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Height: req.body.Height,
+              Goals: req.body.Goals
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      } else if (w == null && h != null && g != null) {
+        //Only when Weight is empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Height: req.body.Height,
+              Goals: req.body.Goals
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      } else if (w != null && h == null && g != null) {
+        //Only when Height is empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Goals: req.body.Goals
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      } else if (w != null && h != null && g == null) {
+        //Only when Goals is empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Height: req.body.Height
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      }
+      ///
+      else if (w == null && h == null && g != null) {
+        //Only G is not empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Height: req.body.Height
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      }
+      else if (w == null && h != null && g == null) {
+        //Only h is not empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Height: req.body.Height
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      }
+      else if (w != null && h == null && g == null) {
+        //Only w is not empty
+        db.collection('users').doc(`${user}`).collection('userInfo').doc('info').update({
+              Weight: req.body.Weight,
+              Height: req.body.Height
+            }).then(doc => {
+            console.log(doc.id);
+            }).catch((err) => {
+            console.log(err)
+        });
+      } else {
+        console.log('Nothing was Submitted')
+      }
+
+  }
+
+  res.status(200).send({message: "Request was Successfully Run"})
+})
 
 // synchroizing fatsecret's profile authentication with my users info for automcatic profile sync!
 exports.api = functions.https.onRequest(app);
