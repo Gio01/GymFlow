@@ -1,18 +1,37 @@
 > FITNESS PAGE:
 Monthly Progress:
+* [ ] Should I change the Line graph or is this a good representation for the user data
+* [ ] Should I include some other graphical data as well?
+* [ ] I need to get more user reviews on this product!
 
 Bar Chart -> 
-* [ ] The setting of data onto the graphs is buggy
+
+* [ ]  Create another endpoint so that the user can update their daily workout to override that day's
+    exercise weight incase of an accident
+* [ ] Consider the time frame of the stored data, should we delete some data after some time to ensure that
+    there is less data to query over time?? 
+        > Since this is still only a small app, it doesn't really matter since I don't have any users yet lol
+* [ ] Since I am using monthly data for their fitness page I need to only display the data from that specific month
+    and not show other data
+        > There should also be an option to where the user could see their previous monthly data. 
+* [ ] Include more workouts to be able to input as data
+    > Allow the user to be able to create their own workouts and use that as reference to store as data for the graphing
+* [X] ~~*The setting of data onto the graphs is buggy*~~ [2020-07-14]
 > At moments the dates are places backwards
 > The data being displayed for the days is not appearing correctly
 > Data missing on some days
+* [X] ~~*If there is a case where there are multiple exercises of the same kind that are inputted, make sure that*~~ [2020-07-14]
+* [X] ~~*Change the monthly macros to be daily macros*~~ [2020-07-14]
+
+* [X] ~~*The dates are not in the correct order*~~ [2020-07-14]
+* [X] ~~*Duplicate errors*~~ [2020-07-14]
+> Ensure that a user can only store one workout entry for one exercise per day! Backend issue
 
 Line Graph ->
-* [ ] Data is missing from the chart
-
+* [X] ~~*Data is missing from the chart*~~ [2020-07-14]
 > Maybe both of the graph are running into the same issue with the data. It might be my logic in 
     the query of the data and the manipulating of it into the front end. 
-* [ ] Device a better data structure
+* [X] ~~*Device a better data structure*~~ [2020-07-14]
 
 FatSecret API:
 * [ ] Create accounts with FatSecret at the moment that a user signs up so the user does not have to 

@@ -14,7 +14,9 @@ const corsOptions = {
   'http://localhost:8080',
   'http://localhost:8100',
   'http://localhost:3000',
-  'http://localhost:5000'],
+  'http://localhost:5000',
+  'http://localhost:4000',
+  'http://localhost:4001'],
   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
   credentials: true,
   enablePreflight: true
@@ -28,7 +30,7 @@ var serviceAccount = require("./adminsdk");
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: "https://gymflow-47c9b.firebaseio.com" });
 
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname + "public")));
 
 app.set("views", "/Users/giovanniordonez/Desktop/GymFlow1/public");
@@ -77,18 +79,33 @@ app.post("/fitness-form", async (req, res) => {
   }).catch(err => {
     console.log(err)
   });
-
+console.log(req.body.ExerciseName)
 db.collection('users').doc(`${user}`).collection('exercises').add({
-        createdAt: admin.firestore.Timestamp.now(),
-        exercise: req.body.ExerciseName,
-        sets: Number(req.body.Sets),
-        reps: Number(req.body.Reps),
-        weight: Number(req.body.Weight)
-    }).then(doc => {
-    console.log(doc.id);
+    createdAt: admin.firestore.Timestamp.now(),
+    exercise: req.body.ExerciseName,
+    sets: Number(req.body.Sets),
+    reps: Number(req.body.Reps),
+    weight: Number(req.body.Weight)
+  }).then(doc => {
+  console.log(doc.id);
   }).catch((err) => {
-    console.log(err)
-  });
+  console.log(err)
+});
+/*
+exerciseRef.get().then(data => {
+  data.forEach(doc => {
+    
+    if(new Date (doc.data().createdAt * 1000).setHours(0,0,0,0) == new Date(admin.firestore.Timestamp.now()).setHours(0,0,0,0))
+      {
+          console.log("Entry has been made for this day");
+          res.send({message: "Entry for today has already been made"}); 
+      }
+      else {
+        */
+      //}  
+    //})
+  //})
+  
   res.status(200).send({message: 'POST Successful'})
 });
 

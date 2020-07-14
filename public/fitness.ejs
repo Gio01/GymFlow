@@ -123,7 +123,7 @@
 
 
 	<div class="item">
-        <h2>Montly Macros:</h2>
+        <h2>Daily Macros:</h2>
         <center>
 		  <canvas id="MacrosChart" width="100" height="50"> </canvas>
 	   </center>
@@ -170,7 +170,7 @@ const db = firebase.firestore();
 auth.onAuthStateChanged(user => {
             //if user is logged in then show data & if not then don't show anything
             if (user) {
-                console.log(user);
+                //console.log(user);
 
                 setupUI(user) //we need to pass the user into the setupUI
                 //to allow for the UI to appwar based on when the user is logged in or not
@@ -223,7 +223,7 @@ auth.onAuthStateChanged(user => {
             };
             console.log(data)
 
-            var exercise = await fetch('http://localhost:5001/gymflow-47c9b/us-central1/api/fitness-form', {
+            var exercise = await fetch('http://localhost:4001/gymflow-47c9b/us-central1/api/fitness-form', {
                 method: 'POST',
                 headers: { 'Content-Type' :'application/json'},
                 body: JSON.stringify(data)
@@ -249,9 +249,13 @@ auth.onAuthStateChanged(user => {
                 lineGraph();
                //doughnutChart();
 
+               /** 
+                * getData() retrives the dates of all exercises in general for the global time frame
+                * of a user working out
+               */
                 async function getData() {
-                    await db.collection('users').doc(user.uid).collection('exercises').
-                        get().then(data => {
+                    await db.collection('users').doc(user.uid).collection('exercises').orderBy('createdAt')
+                        .get().then(data => {
                             data.forEach(doc => {
 
                                 var exercise = doc.data().exercise;
@@ -266,17 +270,18 @@ auth.onAuthStateChanged(user => {
                                 //getMonth() begins at 0
                                 a = (d.getMonth() + 1)+ '/' + d.getDate();
 
-                                if (timeArr.length < 32) {
-                                    if (timeArr.includes(a) == false) {
-                                        //unshift() adds elements to the front of the array
-                                        timeArr.unshift(a);
-
-                                    }
-                                } else {
-                                    if (timeArr.includes(a) == false) {
-                                        timeArr.shift();
-                                    }
-                                }
+                                if (timeArr.length < 32 && (timeArr.includes(a) == false)) {
+                                   
+                                        timeArr.push(a);
+                        
+                                } else if (timeArr.length > 32){
+                                    //This is so we limit the graphs to only a month (not perfect for each)
+                                    //month but this is fine for now, I get a range of an average month of 31 days
+                                            //removes the 1st element of the array
+                                            timeArr.shift();
+                                            //adds an element at the end of the array
+                                            timeArr.push(a);
+                                    } 
 
                             });
 
@@ -285,7 +290,7 @@ auth.onAuthStateChanged(user => {
 
                 //NOTE: In order to get the documents in order by the createdAt I had to create an index in firebase so that it woill
                 //get stored into firebase and ordered there in createdAt order. Go to databases in firebase and then go to index to see what the index is that I made to get this to work!
-                var benchw = [];
+                //var benchw = [];
                 var finalbench = [];
                 async function getBenchData() {
                     await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
@@ -293,75 +298,78 @@ auth.onAuthStateChanged(user => {
                         var time = [];
                         var b;
                         var benchtime = [];
-
+                        var bt = new Map();
                         data.forEach(doc => {
+                           // console.log(doc.data())
                             var date = doc.data().createdAt;
 
                             var d = date.toDate();
 
                             a = (d.getMonth() + 1) + '/' + d.getDate();
-
-                            time.push(a)
-
-                            if(!benchw.includes(doc.data().weight)){
-                                benchw.unshift(doc.data().weight)
+                            if(time.includes(a) == false){
+                                time.push(a)
+                            }
+                            
+                            //if(benchw.includes(doc.data().weight) == false){
+                            //    benchw.push(doc.data().weight)
+                            //}
+                            var b = doc.data().weight;
+                            for (var i = 0; i < time.length; i++){
+                                bt.set(a, b);
                             }
                         })
-
-                        for (let i = 0; i < time.length; i++) {
-                            if (timeArr[i] != time[i]) {
-                                let t = time[i];
-
-                                for (let j = i; j < timeArr.length; j++) {
-                                    if (j <= timeArr.length) {
+console.log(time)
+                      
+                        
+                        console.log(bt)
+                        for (var i = 0; i < time.length; i++) {
+                          
+                              if(timeArr.includes(time[i]) == true) {
+                                var t = time[i];
+                                
+                                for (var j = i; j < timeArr.length; j++) {
+                                    //console.log(timeArr)
+                                    //console.log("T: " + t + " bench time: " + time[i])
+                                    if(j < timeArr.length){
                                         if (timeArr[j] != t) {
                                             benchtime[j] = null;
-                                        } else {
-                                            if (i <= time.length) {
+                                         } else {                          
                                                 benchtime[j] = t;
-                                                t = time[i + 1];
-                                            } else {
-                                                break;
-                                            }
-                                        }
+                                                continue;
+                                         }
                                     } else {
-                                        break;
+                                        benchtime[j] = t;
                                     }
                                 }
+                            }
+                            
+                        }
+
+                //console.log(benchtime);
+                        for(var i = 0; i < benchtime.length; i++){
+                            if(benchtime[i] != null) {
+                                finalbench[i] = bt.get(benchtime[i]);
                             } else {
-                                benchtime[i] = time[i];
+                                finalbench[i] = null;
                             }
                         }
-
-
-                        for (let j = 0; j < benchw.length; j++) {
-                            for (let i = 0; i < timeArr.length; i++) {
-                                if (i < timeArr.length) {
-                                    if (timeArr[i] == benchtime[i]) {
-                                        finalbench[i] = benchw[j];
-                                        j++;
-                                    } else if (timeArr[i] != benchtime[i]) {
-                                        finalbench[i] = null;
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-
-                    })
+                        
+                }
+                    )
+                    //console.log(finalbench)
 
                 }
-                //console.log(finalbench)
+               
 
-                var squatw = [];
+                //var squatw = [];
                 var finalsquat = [];
                 async function getSquatData() {
                     await db.collection('users').doc(user.uid).collection('exercises').where('exercise', '==',
                         'squat').orderBy('createdAt').get().then(data => {
-                        var time = [];
+                        var time = []; 
                         var squattime = [];
                         var a = [];
+                        var bt = new Map();
                         data.forEach(doc => {
 
                             var date = doc.data().createdAt;
@@ -369,59 +377,58 @@ auth.onAuthStateChanged(user => {
 
                             a = (d.getMonth() + 1) + '/' + d.getDate();
 
-                            time.push(a);
-                            var b = doc.data().weight;
-                            if(!squatw.includes(b)){
-                                squatw.unshift(b);
+                            if(time.includes(a) == false){
+                                time.push(a)
                             }
-
+                            var b = doc.data().weight;
+                            //if(squatw.includes(b) == false){
+                               // squatw.push(b);
+                            //}
+                            
+                            for (var i = 0; i < time.length; i++){
+                                bt.set(a, b);
+                            }
                         })
-                        console.log(squatw)
-                        console.log(time)
-
-                        for (let i = 0; i < time.length; i++) {
-                            if (timeArr[i] != time[i]) {
-                                let t = time[i];
-                                for (let j = i; j < timeArr.length; j++) {
-                                    if (j <= timeArr.length) {
+                    console.log(time)          
+                    //console.log(squatw)              
+                       
+                        
+                        console.log(bt)
+                        for (var i = 0; i < time.length; i++) {
+                            //if (timeArr[i] != time[i]) {
+                              if(timeArr.includes(time[i]) == true) {
+                                var t = time[i];
+                                for (var j = i; j < timeArr.length; j++) {
+                                    //console.log(benchtime)
+                                    if(j < timeArr.length){
                                         if (timeArr[j] != t) {
                                             squattime[j] = null;
-                                        } else {
-                                            if (i <= time.length) {
+                                         } else {                          
                                                 squattime[j] = t;
-                                                t = time[i + 1];
-                                            } else {
-                                                break;
-                                            }
-                                        }
+                                                continue;
+                                         }
                                     } else {
-                                        break;
+                                        squattime[j] = t;
                                     }
                                 }
+                            }
+                            
+                        }
+
+                console.log(squattime);
+                        for(var i = 0; i < squattime.length; i++){
+                            if(squattime[i] != null) {
+                                finalsquat[i] = bt.get(squattime[i]);
                             } else {
-                                squattime[i] = time[i];
+                                finalsquat[i] = null;
                             }
                         }
-
-                        for (let j = 0; j < squatw.length; j++) {
-                            for (let i = 0; i < timeArr.length; i++) {
-                                if (i < timeArr.length) {
-                                    if (timeArr[i] == squattime[i]) {
-                                        finalsquat[i] = squatw[j];
-                                        j++;
-                                    } else if (timeArr[i] != squattime[i]) {
-                                        finalsquat[i] = null;
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                            console.log(squattime)
                 console.log(finalsquat)
-                    })
+                        
+                        
                 }
-
+                    
+                        )}
 
                 var pullupw = [];
                 var finalpullup = [];
@@ -431,60 +438,59 @@ auth.onAuthStateChanged(user => {
                         var time = [];
                         var pulluptime = [];
                         var a = [];
+                        var bt = new Map();
                         data.forEach(doc => {
 
                             var date = doc.data().createdAt;
                             var d = date.toDate();
 
-                            a = d.getMonth() + '/' + d.getDate();
+                            a = (d.getMonth() + 1) + '/' + d.getDate();
 
-                            time.push(a);
+                            if(time.includes(a) == false){
+                                time.push(a)
+                            }
                             var b = doc.data().weight;
-                            pullupw.push(b);
-
-
+                            //if(pullupw.includes(b) == false){
+                             //   pullupw.push(b);
+                           // } 
+                           for (var i = 0; i < time.length; i++){
+                                bt.set(a, b);
+                            }
+                             
                         })
 
-
-                        for (let i = 0; i < time.length - 1; i++) {
-                            if (timeArr[i] != time[i]) {
-                                let t = time[i];
-                                for (let j = i; j < timeArr.length; j++) {
-                                    if (j <= timeArr.length) {
+            console.log(pullupw)
+            console.log(time)
+                        
+                        
+                        console.log(bt)
+                        for (var i = 0; i < time.length; i++) {
+                            //if (timeArr[i] != time[i]) {
+                              if(timeArr.includes(time[i]) == true) {
+                                var t = time[i];
+                                for (var j = i; j < timeArr.length; j++) {
+                                    //console.log(benchtime)
+                                    if(j < timeArr.length){
                                         if (timeArr[j] != t) {
                                             pulluptime[j] = null;
-                                        } else {
-                                            if (i <= time.length) {
+                                         } else {                          
                                                 pulluptime[j] = t;
-                                                t = time[i + 1];
-                                                i++;
-                                            } else {
-                                                break;
-                                            }
-                                        }
-
+                                                continue;
+                                         }
                                     } else {
-                                        break;
+                                        pulluptime[j] = t;
                                     }
                                 }
-                            } else {
-                                pulluptime[i] = time[i];
                             }
+                            
                         }
 
-
-                        for (let j = 0; j < pullupw.length; j++) {
-                            for (let i = 0; i < timeArr.length; i++) {
-                                if (i < timeArr.length) {
-                                    if (timeArr[i] == pulluptime[i]) {
-                                        finalpullup[i] = pullupw[j];
-                                        j++;
-                                    } else if (timeArr[i] != pulluptime[i]) {
-                                        finalpullup[i] = null;
-                                    }
-                                } else {
-                                    break;
-                                }
+                //console.log(benchtime);
+                        for(var i = 0; i < pulluptime.length; i++){
+                            if(pulluptime[i] != null) {
+                                finalpullup[i] = bt.get(pulluptime[i]);
+                            } else {
+                                finalpullup[i] = null;
                             }
                         }
 
@@ -555,12 +561,13 @@ auth.onAuthStateChanged(user => {
                         data: {
                             datasets: [{
                                 data: [200, 130, 80],
-                                backgroundColor: ['#572991','#001399','#C40233']
+                                backgroundColor: ['#572991','#001399','#C40233'],
                             }],
                         labels: ['Carbs','Protein','Fats']
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                           
                         }
                     });
 
@@ -580,23 +587,26 @@ auth.onAuthStateChanged(user => {
                         datasets: [{
                             data: finalsquat,
                             label: ['Squat'],
-                            backgroundColor: ['#572991','#572991','#572991'],
-                            fill: false,
-                            borderColor: '#572991'
-                        },
+                            backgroundColor: '#decff2',
+                            fill: true,
+                            borderColor: '#572991',
+                            
+                        }, 
                         {
                             data: finalbench,
                             label:['Bench Press'],
-                            backgroundColor: ['#001399','#001399','#001399'],
-                            fill: false,
-                            borderColor: '#001399'
+                            backgroundColor: '#cdccfa',
+                            fill: true,
+                            borderColor: '#001399',
+                            
                         },
                         {
                             data: finalpullup,
                             label:['Pullup'],
-                            backgroundColor: ['#C40233','#C40233','#C40233'],
-                            fill: false,
-                            borderColor: '#C40233'
+                            backgroundColor: '#febdce',
+                            fill: true,
+                            borderColor: '#C40233',
+                           
                         }]
                     },
                 options:{
@@ -604,7 +614,11 @@ auth.onAuthStateChanged(user => {
                         yAxes: [{
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    stacked: true
+            }],
+            xAxes: [{
+                stacked: true
             }]
         }
                 }
