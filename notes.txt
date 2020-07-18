@@ -1,6 +1,6 @@
 time arr = [6/8, 6/9, 6/28, 7/12, 7/13, 7/14, 7/17]
-benchtime= [6/8, 6/9, 7/12,       7/14, 7/17]
-			t until it matches the next 7/12	     
+benchtime= [6/8, 6/9, 	    7/12,       7/14, 7/17]
+
 t = hold the position of the h
 
 case 0: Nothing matches meaning that benchtime is null
@@ -19,9 +19,4 @@ case 1: The 0 cell is null
 time arr = [6/8, 6/9, 6/28, 7/12, 7/13, 7/14, 7/17]
 
 case 2: We skip some dates from the time arr
-time arr = [6/8, 6/9, 6/28, 7/12, 7/13, 7/14, 7/17
-
-Current data in Firebase:
-squat = [120, 150, 200, 125, 150, 122]
-bench = [100, 55, 111, 150, 145] 
-pullups = [10, ]
+time arr = [6/8, 6/9, 6/28, 7/12, 7/13, 7/14, 7/17]
