@@ -215,10 +215,10 @@ const json = require('circular-json');
 app.get("/register", (req, res) => {
     res.render("register");
 });
-
+// Maybe create this api point and if I get a user exists from the register Obj then we will instead pass the reqObj!  
 app.post("/register-fatsecret", (req, res) => {
 
-  console.log(req.body);
+  console.log(req.body.User.uid);
 
 })
 

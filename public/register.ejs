@@ -144,13 +144,35 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+	
 
         // Make auth and firestore references!
         const auth = firebase.auth();
         const db = firebase.firestore();
+	const user = firebase.auth().currentUser;
+        
+	auth.onAuthStateChanged(user => {
+		if (user) {
+			console.log(user);
+		
+            var user = auth.currentUser;
+            var data = {
+                User: user
+            };
+            console.log(user)
 
-        console.log(firebase.auth().currentUser);
-        const signupForm = document.querySelector('#signupForm');
+            fetch("http://localhost:5001/gymflow-47c9b/us-central1/api/register-fatsecret", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(console.log(data))
+		}
+		else {
+			console.log("No user is logged in!");
+		}
+	})
+
+	const signupForm = document.querySelector('#signupForm');
         signupForm.addEventListener('submit', (e) => {
             //we want to stop the default submit settings of refreshing the
             //page
@@ -171,16 +193,6 @@
                 signupForm.reset();
             })
 
-            var user = auth.currentUser;
-            var data = {
-                User: user
-            };
-            console.log(user)
-            fetch("http://localhost:5001/gymflow-47c9b/us-central1/api/register-fatsecret", {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            }).then(console.log(data))
 
         })
 
