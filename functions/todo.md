@@ -1,3 +1,8 @@
+> GENERAL TASKS:
+* [ ] Delete all of the already used admin sdk from firebase and use a new key in case that one of them
+was stored on github when I had trouble with the git ignore
+* [ ] After I am done with all of the edits, make sure to delete or atleast comment out all of the console.log()
+
 > FITNESS PAGE:
 Monthly Progress:
 * [ ] Should I change the Line graph or is this a good representation for the user data
@@ -10,6 +15,13 @@ Bar Chart ->
         > There should also be an option to where the user could see their previous monthly data. 
 * [ ] Include more workouts to be able to input as data
     > Allow the user to be able to create their own workouts and use that as reference to store as data for the graphing
+Line Chart ->
+* [ ] The data is being drawn in the incorrect locations on the y axis. The values of the w are correct but they are
+not getting placed in the correct y axis point!
+* [ ] Connecting the line in the between two points when there is missing data. 
+	> One idea but with an issue, create a midpoint between the other points and connect them that way but I would
+	have multiple mid points if there are multiple gaps. So maybe this is not the best idea. 
+	But for now I thin the graphs at least shows some data
 
 FatSecret API:
 * [ ] Create accounts with FatSecret at the moment that a user signs up so the user does not have to 

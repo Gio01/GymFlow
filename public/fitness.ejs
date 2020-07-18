@@ -322,47 +322,21 @@ auth.onAuthStateChanged(user => {
                                 bt.set(a, b);
                             }
                         })
-console.log(time)
+//console.log(time)
                       
                         
-                        console.log(bt)
-		/*
-                        for (var i = 0; i < time.length; i++) {
-                          
-                              if(timeArr.includes(time[i]) == true) {
-                                var t = time[i];
-                                
-                                for (var j = i; j < timeArr.length; j++) {
-                                    //console.log(timeArr)
-                                    //console.log("T: " + t + " bench time: " + time[i])
-                                    if(j <= timeArr.length){
-                                        if (timeArr[j] != t) {
-                                            benchtime[j] = null;
-                                         } else {                          
-                                                benchtime[j] = t;
-                                                continue;
-                                         }
-                                    } else {
-                                        benchtime[j] = t;
-                                    }
-                                }
-                            }
-                            
-                        }
-*/
-  
-				
+  	                      //console.log(bt)
 	
 				for(var i = 0; i < time.length; i++){
 					var x = time[i];
-					console.log(x)
+					//console.log(x)
 					if(timeArr.includes(time[i]) == true){
 						if(time[i] == timeArr[i]){
 							benchtime[i] = x;
 						}
 						else if(time[i] != timeArr[i]){
 							var t = time[i];
-							console.log("The current t val: " + t)
+							//console.log("The current t val: " + t)
 							for(var j = i; j < timeArr.length; j++){
 								if(t == timeArr[j]){
 									benchtime[j] = t;
@@ -380,7 +354,7 @@ console.log(time)
 							benchtime[i] = null;
 						}
 					}
-			console.log(benchtime);
+			//console.log(benchtime);
 				}
 
 
@@ -394,7 +368,7 @@ console.log(time)
                         
                 }
                     )
-                    console.log("Final bench!: " + finalbench)
+                    //console.log("Final bench!: " + finalbench)
 
                 }
                
@@ -427,24 +401,24 @@ console.log(time)
                                 bt.set(a, b);
                             }
                         })
-                    console.log(time)          
+                    //console.log(time)          
                     //console.log(squatw)              
                        
                         
-                        console.log(bt)
+                        //console.log(bt)
 
 	
 
 				for(var i = 0; i < time.length; i++){
 					var x = time[i];
-					console.log(x)
+					//console.log(x)
 					if(timeArr.includes(time[i]) == true){
 						if(time[i] == timeArr[i]){
 							squattime[i] = x;
 						}
 						else if(time[i] != timeArr[i]){
 							var t = time[i];
-							console.log("The current t val: " + t)
+							//console.log("The current t val: " + t)
 							for(var j = i; j < timeArr.length; j++){
 								if(t == timeArr[j]){
 									squattime[j] = t;
@@ -462,7 +436,7 @@ console.log(time)
 							squattime[i] = null;
 						}
 					}
-			console.log(squattime);
+			//console.log(squattime);
 				}
 
 
@@ -473,7 +447,7 @@ console.log(time)
                                 finalsquat[i] = null;
                             }
                         }
-console.log("Final squat!: " + finalsquat)
+//console.log("Final squat!: " + finalsquat)
                         
                         
                 }
@@ -509,21 +483,21 @@ console.log("Final squat!: " + finalsquat)
                              
                         })
 
-            console.log(pullupw)
-            console.log(time)
+            //console.log(pullupw)
+            //console.log(time)
                         
                         
-                        console.log(bt)
+                        //console.log(bt)
 			for(var i = 0; i < time.length; i++){
 				var x = time[i];
-				console.log(x)
+				//console.log(x)
 				if(timeArr.includes(time[i]) == true){
 					if(time[i] == timeArr[i]){
 						pulluptime[i] = x;
 					}
 					else if(time[i] != timeArr[i]){
 						var t = time[i];
-						console.log("The current t val: " + t)
+						//console.log("The current t val: " + t)
 						for(var j = i; j < timeArr.length; j++){
 							if(t == timeArr[j]){
 								pulluptime[j] = t;
@@ -541,7 +515,7 @@ console.log("Final squat!: " + finalsquat)
 						pulluptime[i] = null;
 					}
 				}
-			console.log(pulluptime);
+			//console.log(pulluptime);
 				}
 
                         for(var i = 0; i < pulluptime.length; i++){
@@ -551,7 +525,7 @@ console.log("Final squat!: " + finalsquat)
                                 finalpullup[i] = null;
                             }
                         }
-		console.log("Final pull up!: " + finalpullup);
+		//console.log("Final pull up!: " + finalpullup);
 
                     })
                 }
@@ -646,40 +620,31 @@ console.log("Final squat!: " + finalsquat)
                         datasets: [{
                             data: finalsquat,
                             label: ['Squat'],
-                            backgroundColor: '#decff2',
-                            fill: true,
+			    backgroundColor: '#572991',
+                            fill: false,
                             borderColor: '#572991',
                             
                         }, 
                         {
                             data: finalbench,
                             label:['Bench Press'],
-                            backgroundColor: '#cdccfa',
-                            fill: true,
+			    backgroundColor: '#001399',
+                            fill: false,
                             borderColor: '#001399',
                             
                         },
                         {
                             data: finalpullup,
                             label:['Pullup'],
-                            backgroundColor: '#febdce',
-                            fill: true,
+			    backgroundColor: '#C40233',
+				fill: true,
                             borderColor: '#C40233',
                            
                         }]
                     },
                 options:{
-                    scales: {
-                        yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    },
-                    stacked: true
-            }],
-            xAxes: [{
-                stacked: true
-            }]
-        }
+			scales: {
+			}
                 }
                })
            }
