@@ -223,7 +223,7 @@ auth.onAuthStateChanged(user => {
             };
             console.log(data)
 
-            var exercise = await fetch('http://localhost:4001/gymflow-47c9b/us-central1/api/fitness-form', {
+            var exercise = await fetch('http://localhost:5001/gymflow-47c9b/us-central1/api/fitness-form', {
                 method: 'POST',
                 headers: { 'Content-Type' :'application/json'},
                 body: JSON.stringify(data)
@@ -322,6 +322,7 @@ console.log(time)
                       
                         
                         console.log(bt)
+		/*
                         for (var i = 0; i < time.length; i++) {
                           
                               if(timeArr.includes(time[i]) == true) {
@@ -330,7 +331,7 @@ console.log(time)
                                 for (var j = i; j < timeArr.length; j++) {
                                     //console.log(timeArr)
                                     //console.log("T: " + t + " bench time: " + time[i])
-                                    if(j < timeArr.length){
+                                    if(j <= timeArr.length){
                                         if (timeArr[j] != t) {
                                             benchtime[j] = null;
                                          } else {                          
@@ -344,8 +345,41 @@ console.log(time)
                             }
                             
                         }
+*/
+  
+				
+	
+				for(var i = 0; i < time.length; i++){
+					var x = time[i];
+					console.log(x)
+					if(timeArr.includes(time[i]) == true){
+						if(time[i] == timeArr[i]){
+							benchtime[i] = x;
+						}
+						else if(time[i] != timeArr[i]){
+							var t = time[i];
+							console.log("The current t val: " + t)
+							for(var j = i; j < timeArr.length; j++){
+								if(t == timeArr[j]){
+									benchtime[j] = t;
+									t = time[i+1];
+									i++;
+								}
+								else {
+									benchtime[j] = null;
+									continue;
+								}
+							}
+						
+						}
+						else {
+							benchtime[i] = null;
+						}
+					}
+			console.log(benchtime);
+				}
 
-                //console.log(benchtime);
+
                         for(var i = 0; i < benchtime.length; i++){
                             if(benchtime[i] != null) {
                                 finalbench[i] = bt.get(benchtime[i]);
@@ -356,7 +390,7 @@ console.log(time)
                         
                 }
                     )
-                    //console.log(finalbench)
+                    console.log("Final bench!: " + finalbench)
 
                 }
                
@@ -394,28 +428,40 @@ console.log(time)
                        
                         
                         console.log(bt)
-                        for (var i = 0; i < time.length; i++) {
-                            //if (timeArr[i] != time[i]) {
-                              if(timeArr.includes(time[i]) == true) {
-                                var t = time[i];
-                                for (var j = i; j < timeArr.length; j++) {
-                                    //console.log(benchtime)
-                                    if(j < timeArr.length){
-                                        if (timeArr[j] != t) {
-                                            squattime[j] = null;
-                                         } else {                          
-                                                squattime[j] = t;
-                                                continue;
-                                         }
-                                    } else {
-                                        squattime[j] = t;
-                                    }
-                                }
-                            }
-                            
-                        }
 
-                console.log(squattime);
+	
+
+				for(var i = 0; i < time.length; i++){
+					var x = time[i];
+					console.log(x)
+					if(timeArr.includes(time[i]) == true){
+						if(time[i] == timeArr[i]){
+							squattime[i] = x;
+						}
+						else if(time[i] != timeArr[i]){
+							var t = time[i];
+							console.log("The current t val: " + t)
+							for(var j = i; j < timeArr.length; j++){
+								if(t == timeArr[j]){
+									squattime[j] = t;
+									t = time[i+1];
+									i++;
+								}
+								else {
+									squattime[j] = null;
+									continue;
+								}
+							}
+						
+						}
+						else {
+							squattime[i] = null;
+						}
+					}
+			console.log(squattime);
+				}
+
+
                         for(var i = 0; i < squattime.length; i++){
                             if(squattime[i] != null) {
                                 finalsquat[i] = bt.get(squattime[i]);
@@ -423,7 +469,7 @@ console.log(time)
                                 finalsquat[i] = null;
                             }
                         }
-                console.log(finalsquat)
+console.log("Final squat!: " + finalsquat)
                         
                         
                 }
@@ -464,28 +510,36 @@ console.log(time)
                         
                         
                         console.log(bt)
-                        for (var i = 0; i < time.length; i++) {
-                            //if (timeArr[i] != time[i]) {
-                              if(timeArr.includes(time[i]) == true) {
-                                var t = time[i];
-                                for (var j = i; j < timeArr.length; j++) {
-                                    //console.log(benchtime)
-                                    if(j < timeArr.length){
-                                        if (timeArr[j] != t) {
-                                            pulluptime[j] = null;
-                                         } else {                          
-                                                pulluptime[j] = t;
-                                                continue;
-                                         }
-                                    } else {
-                                        pulluptime[j] = t;
-                                    }
-                                }
-                            }
-                            
-                        }
+			for(var i = 0; i < time.length; i++){
+				var x = time[i];
+				console.log(x)
+				if(timeArr.includes(time[i]) == true){
+					if(time[i] == timeArr[i]){
+						pulluptime[i] = x;
+					}
+					else if(time[i] != timeArr[i]){
+						var t = time[i];
+						console.log("The current t val: " + t)
+						for(var j = i; j < timeArr.length; j++){
+							if(t == timeArr[j]){
+								pulluptime[j] = t;
+								t = time[i+1];
+								i++;
+							}
+							else {
+								pulluptime[j] = null;
+								continue;
+							}
+						}
+					
+					}
+					else {
+						pulluptime[i] = null;
+					}
+				}
+			console.log(pulluptime);
+				}
 
-                //console.log(benchtime);
                         for(var i = 0; i < pulluptime.length; i++){
                             if(pulluptime[i] != null) {
                                 finalpullup[i] = bt.get(pulluptime[i]);
@@ -493,6 +547,7 @@ console.log(time)
                                 finalpullup[i] = null;
                             }
                         }
+		console.log("Final pull up!: " + finalpullup);
 
                     })
                 }
