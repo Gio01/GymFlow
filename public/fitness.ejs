@@ -227,9 +227,13 @@ auth.onAuthStateChanged(user => {
                 method: 'POST',
                 headers: { 'Content-Type' :'application/json'},
                 body: JSON.stringify(data)
-            }).then(console.log(exercise));
+            }).then(
+		    console.log(exercise)
+	    );
 
-            console.log("Button Clicked");}
+            console.log("Button Clicked");
+	    location.reload();
+	}
 
         );
         //const media = document.querySelector('.media-acc');
